@@ -74,11 +74,6 @@ def distributeStudents(students, studentsPerCohort, cohorts):
 
 
 
-    
-#for index, student in enumerate(studentsDistributed):
-    #print(index, student)
-
-    #return np.array_split(students, studentsPerCohort)
 
 
 
@@ -92,3 +87,12 @@ print(len(students))
 print(cohorts)
 print(studentsInCohort)
 print(studentsDistributed)
+
+
+class cohort():
+
+    def __init__(self, size, core, specific, term=0):
+        self.size = size
+        self.coreProgram = core
+        self.specificProgram = specific
+        self.term = term
