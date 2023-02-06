@@ -1,6 +1,5 @@
 import math
 import numpy as np
-import random 
 
 students = ["Ishan", "Calvin", "Nhi", "Ayesha", "Matt", "Kadia", "Travis", "Aman", "Abeil", "Dariuz",
             "Jon", "Hanibal", "Chad", "Alex", "Jake", "Jordan", "Ginger", "Danielle", "Kelsey", 
