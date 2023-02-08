@@ -15,10 +15,6 @@ Want to give some extra space when schedule the cohort
 import math
 import numpy as np
 
-students = ["Ishan", "Calvin", "Nhi", "Ayesha", "Matt", "Kadia", "Travis", "Aman", "Abeil", "Dariuz",
-            "Jon", "Hanibal", "Chad", "Alex", "Jake", "Jordan", "Ginger", "Danielle", "Kelsey", 
-            "Keianna", "June", "Chelsea", "Cameron", "Jalen", "Luke", "josh", "Anissa"]
-
 # We have 9 classrooms
 classroom = {"11-533": {'capacity': 36, 'occupied': 'N'}, "11-534": {'capacity': 36, 'occupied': 'N'},\
         "11-560": {'capacity': 24, 'occupied': 'N'}, "11-562": {'capacity': 24, 'occupied': 'N'},\
@@ -26,6 +22,7 @@ classroom = {"11-533": {'capacity': 36, 'occupied': 'N'}, "11-534": {'capacity':
         "11-430": {'capacity': 30, 'occupied': 'N'}, "11-320": {'capacity': 30, 'occupied': 'N'},\
         "11-532": {'capacity': 30, 'occupied': 'N'}}
 
+# 3 terms of students
 term1 = {"BA": 31, "PM" : 24, "GL" : 12, "FS" : 8}
 term2 = {"BA": 63, "PM" : 73, "GL" : 18, "FS" : 13}
 term3 = {"BA": 74, "PM" : 102, "GL" : 41, "FS" : 18}
@@ -70,26 +67,11 @@ def studentsPerCohort(total, n):
         listCohort.append(studentsInCohort) 
     return listCohort
 
+def main():
+    for i in range (len(data)):
+        for k in data[i]:
+            cohorts = numCohorts(data[i][k])
+            listCohorts = studentsPerCohort(data[i][k], cohorts)
+            print(f'program {k} has {data[i][k]} students, divide into {cohorts} cohorts. {listCohorts}')
 
-def distributeStudents(students, studentsPerCohort, cohorts):
-    '''
-    Purpose:
-    Parameters:
-    Return:
-    '''
-    distributed = {}
-    j = 0
-
-    for i in range(cohorts):
-        distributed[i] = students[j:(j+studentsPerCohort)]
-        j += studentsPerCohort
-    return distributed
-
-for i in range (len(data)):
-    for k in data[i]:
-        cohorts = numCohorts(data[i][k])
-        listCohorts = studentsPerCohort(data[i][k], cohorts)
-        print(f'program {k} has {data[i][k]} students, divide into {cohorts} cohorts. {listCohorts}')
-
-#print(studentsDistributed)
-
+main()
