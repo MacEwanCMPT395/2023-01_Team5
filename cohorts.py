@@ -28,6 +28,16 @@ term2 = {"BA": 63, "PM" : 73, "GL" : 18, "FS" : 13}
 term3 = {"BA": 74, "PM" : 102, "GL" : 41, "FS" : 18}
 
 data = [term1, term2, term3]
+#mock class for cohort to test
+class Cohort:
+    def __init__(self, program, term, cohort, size):
+        self.program = program
+        self.term = term
+        self.cohort = cohort
+        self.size = size
+    
+    def __str__(self):
+        return f'{self.program}0{self.term}0{self.cohort}'
 
 def numCohorts(total):
     '''
@@ -40,9 +50,11 @@ def numCohorts(total):
         then we don't split into cohorts
 
     '''
+    # 1 cohort case 
     if total <= 20:  
         return 1
     
+    # start with 2 cohorts
     n = 2
     while (total // n) > 30: 
         n += 1
@@ -67,11 +79,19 @@ def studentsPerCohort(total, n):
         listCohort.append(studentsInCohort) 
     return listCohort
 
+def createCohortObj(program, term, cohort, size):
+    cohort = Cohort (program, term, cohort, size)
+    return cohort
+
+
 def main():
-    for i in range (len(data)):
-        for k in data[i]:
-            cohorts = numCohorts(data[i][k])
-            listCohorts = studentsPerCohort(data[i][k], cohorts)
-            print(f'program {k} has {data[i][k]} students, divide into {cohorts} cohorts. {listCohorts}')
+    for term in range (len(data)):
+        for program in data[term]:
+            cohorts = numCohorts(data[term][program])
+            listCohorts = studentsPerCohort(data[term][program], cohorts)
+            print(f'program {program} has {data[term][program]} students, divide into {cohorts} cohorts.')
+            for c in range (len(listCohorts)):
+                cohort = createCohortObj(program, term, c+1, listCohorts[c])
+                print(cohort)
 
 main()
