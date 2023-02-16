@@ -3,4 +3,5 @@
 ## Schedule application
 
 Group members are:
-Nhi Phan
+Nhi Phan, Matthew Cassidy
+

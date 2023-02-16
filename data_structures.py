@@ -1,5 +1,8 @@
 import math
 
+
+# Setting Global Variables.
+
 WEEKDAY_NAMES = ["Mon", "Tue", "Wed", "Thu"]
 WEEKS = 15
 DAYS = 4
@@ -10,6 +13,7 @@ class Cohort:
 
         self.name = name
         self.term = term
+
         # Finding Courses for Cohort.
         if term == 1:
             if name[0:2] == "PC":
@@ -36,6 +40,7 @@ class Cohort:
 
         
 
+
         sizes = [24, 30, 36, 40]
         self.size = size
         for s in sizes:
@@ -54,13 +59,14 @@ class Cohort:
 
 class Room:
     def __init__(self, room_number, capacity, is_lab):
-
         # Identifying number for room (str).
         self.room_number = room_number
         # Maximum Student capacity of room (int).
         self.capacity = capacity
         # Lab Status (boolean).
         self.is_lab = is_lab
+
+        # Separate class queues for Mon/Wed and Tue/Thu.
 
         self.general_queue = []
         self.special_queue = []
@@ -163,6 +169,59 @@ class Course:
         return self.name
 
 
+def set_courses(term, program):
+    if term == 1:
+        if program == "PC":
+            return PCOM_TERM_1
+        elif program == "BC":
+            return BCOM_TERM_1
+        elif program == "PM":
+            return PM_TERM_1
+        elif program == "BA":
+            return BA_TERM_1
+        elif program == "GL":
+            return GL_TERM_1
+        elif program == "DX":
+            return DXDI_TERM_1
+        elif program == "FS":
+            return FS_TERM_1
+        elif program == "BK":
+            return BK_TERM_1
+    elif term == 2:
+        if program == "PC":
+            return PCOM_TERM_2
+        elif program == "BC":
+            return BCOM_TERM_2
+        elif program == "PM":
+            return PM_TERM_2
+        elif program == "BA":
+            return BA_TERM_2
+        elif program == "GL":
+            return GL_TERM_2
+        elif program == "DX":
+            return DXDI_TERM_2
+        elif program == "FS":
+            return FS_TERM_2
+        elif program == "BK":
+            return BK_TERM_2
+    elif term == 3:
+        if program == "PC":
+            return PCOM_TERM_3
+        elif program == "BC":
+            return BCOM_TERM_3
+        elif program == "PM":
+            return PM_TERM_3
+        elif program == "BA":
+            return BA_TERM_3
+        elif program == "GL":
+            return GL_TERM_3
+        elif program == "DX":
+            return DXDI_TERM_3
+        elif program == "FS":
+            return FS_TERM_3
+        elif program == "BK":
+            return BK_TERM_3
+
 # Professional Communication (PCOM)
 # Term 1
 PCOM_0101 = Course("PCOM_0101", 35, False)
@@ -196,8 +255,10 @@ SUPR_0821 = Course("SUPR_0821", 7, False)
 SUPR_0822 = Course("SUPR_0822", 7, False)
 SUPR_0718 = Course("SUPR_0718", 7, False)
 SUPR_0836 = Course("SUPR_0836", 7, False)
+AVDM_0199 = Course("AVDM_0199", 3, False)  # Online?
 AVDM_0199 = Course("ACDM_0199", 3, False)  # Online?
-PCOM_0106 = Course("PCOM_0106", 35, False)
+
+PCOM_0106= Course("PCOM_0106", 35, False)
 BCOM_TERM_2 = [SUPR_0821, SUPR_0822, SUPR_0836, SUPR_0836, AVDM_0199, PCOM_0106]
 # Term 3
 PCOM_0205 = Course("PCOM_0205", 30, False)
@@ -229,6 +290,22 @@ FS_TERM_3 = [PCOM_0160]
 
 # Digital Design (DXDI)
 # Term 1
+AVDM_0165 = Course("AVDM_0165", 18, True)
+DXDI_0101 = Course("DXDI_0101", 24, True)
+DXDI_0102 = Course("DXDI_0102", 24, True)
+DXDI_TERM_1 = [AVDM_0165, DXDI_0101, DXDI_0102]
+# Term 2
+AVDM_0170 = Course("AVDM_0170", 18, True)
+AVDM_0138 = Course("AVDM_0138", 18, True)
+DXDI_0103 = Course("DXDI_0103", 24, True)
+DXDI_0104 = Course("DXDI_0104", 24, True)
+DXDI_TERM_2 = [AVDM_0170, AVDM_0138, DXDI_0103, DXDI_0104]
+# Term 3
+AVDM_0238 = Course("AVDM_0238", 18, True)
+AVDM_0270 = Course("AVDM_0270", 18, True)
+DXDI_9901 = Course("DXDI_0991", 45, True)
+DXDI_TERM_3 = [AVDM_0238, AVDM_0270, DXDI_9901]
+
 AVDM_0165 = Course("ACDM_0165", 18, True)
 DXDI_0101 = Course("DXDI_0101", 24, True)
 DXDI_0102 = Course("DXDI_0102", 24, True)
@@ -256,9 +333,18 @@ BK_TERM_3 = [ACCT_0208, ACCT_9901]
 SCMT_0501 = Course("SCMT_0501", 21, False)
 SCMT_0502 = Course("SCMT_0502", 21, False)
 PRDV_0304 = Course("PRDV_0304", 15, False)
-GL_TERM_1 = [SCMT_0501, SCMT_0502, PRDV_0304]
 # SCMT_9901?
-# Term 2 
+GL_TERM_1 = [SCMT_0501, SCMT_0502, PRDV_0304]
+# Term 2
+SCMT_0503 = Course("SCMT_0503", 15, False)
+SCMT_0504 = Course("SCMT_0504", 21, False)
+# SCMT_9902?
+GL_TERM_2 = [SCMT_0503, SCMT_0504]
+# Term 3
+SCMT_0505 = Course("SCMT_0505", 21, False)
+PCOM_0151 = Course("PCOM_0151", 39, False)  # 13 Sessions, 3 Hours Each
+GL_TERM_3 = [SCMT_0505, PCOM_0151]
+
 
 # Business Analysis (BA)
 # Term 1
@@ -268,6 +354,15 @@ PRDV_0653 = Course("PRDV_0653", 21, False)
 PRDV_0642 = Course("PRDV_0642", 14, False)
 BA_TERM_1 = [PRDV_0640, PRDV_0652, PRDV_0653, PRDV_0642]
 # Term 2
+PRDV_0644 = Course("PRDV_0644", 21, False)
+PRDV_0648 = Course("PRDV_0648", 12, False)
+PCOM_0140 = Course("PCOM_0140", 35, False)
+BA_TERM_2 = [PRDV_0644, PRDV_0648, PCOM_0140]
+# Term 3
+PRDV_0646 = Course("PRDV_0646", 14, False)
+PCOM_0141 = Course("PCOM_0141", 39, False)  # 13 Sessions, 3 Hours Each.
+BA_TERM_3 = [PRDV_0646, PCOM_0141]
+
 
 # Project Management (PM)
 # Term 1
@@ -286,10 +381,6 @@ PRDV_0207 = Course("PRDV_0207", 14, False)
 PCOM_0131 = Course("PCOM_0131", 39, False)
 PM_TERM_3 = [PRDV_0207, PCOM_0131]
 
-
-
-
-
 # Creation of Default Available Rooms.
 Room_1 = Room("11-533", 36, False)
 Room_2 = Room("11-534", 36, False)
@@ -300,6 +391,10 @@ Room_6 = Room("11-458", 40, False)
 Room_7 = Room("11-430", 30, False)
 Room_8 = Room("11-320", 30, False)
 Computer_Lab = Room("11-532", 30, True)
+
+
+# Structure Testing code.
+
 """
 if __name__ == "__main__":
     Computer_Lab.update_schedule(CMSK_0150, 0, 0, 0, 1)

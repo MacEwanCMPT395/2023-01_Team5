@@ -1,5 +1,8 @@
 from data_structures import *
 
+
+# Start of algorithm.
+
 def test(cohorts):
     # Finding Rooms for Cohorts (Needs to be expanded upon)
     for c in cohorts:
@@ -12,3 +15,4 @@ def test(cohorts):
         Computer_Lab.update_schedule(course, 0, 0, 0 + slot, 1)
         slot += 3
     Computer_Lab.print_schedule()
+
