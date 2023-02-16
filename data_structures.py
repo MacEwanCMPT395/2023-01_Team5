@@ -1,6 +1,8 @@
 import math
 
+
 # Setting Global Variables.
+
 WEEKDAY_NAMES = ["Mon", "Tue", "Wed", "Thu"]
 WEEKS = 15
 DAYS = 4
@@ -13,9 +15,32 @@ class Cohort:
         self.term = term
 
         # Finding Courses for Cohort.
-        self.courses = set_courses(term, name[0:2])
+        if term == 1:
+            if name[0:2] == "PC":
+                self.courses = PCOM_TERM_1
+            elif name[0:2] == "BC":
+                self.courses = BCOM_TERM_1
+            elif name[0:2] == "PM":
+                self.courses = PM_TERM_1
+            elif name[0:2] == "BA":
+                self.courses = BA_TERM_1
+            elif name[0:2] == "GL":
+                self.courses = GL_TERM_1
+            elif name[0:2] == "DX":
+                self.courses = DXDI_TERM_1
+            elif name[0:2] == "FS":
+                self.courses = FS_TERM_1
+            elif name[0:2] == "BK":
+                self.courses = BK_TERM_1
 
-        # Finding the smallest possible room size for cohort.
+        elif term == 2:
+            pass
+        elif term == 3:
+            pass
+
+        
+
+
         sizes = [24, 30, 36, 40]
         self.size = size
         for s in sizes:
@@ -42,6 +67,7 @@ class Room:
         self.is_lab = is_lab
 
         # Separate class queues for Mon/Wed and Tue/Thu.
+
         self.general_queue = []
         self.special_queue = []
 
@@ -196,7 +222,6 @@ def set_courses(term, program):
         elif program == "BK":
             return BK_TERM_3
 
-
 # Professional Communication (PCOM)
 # Term 1
 PCOM_0101 = Course("PCOM_0101", 35, False)
@@ -231,7 +256,9 @@ SUPR_0822 = Course("SUPR_0822", 7, False)
 SUPR_0718 = Course("SUPR_0718", 7, False)
 SUPR_0836 = Course("SUPR_0836", 7, False)
 AVDM_0199 = Course("AVDM_0199", 3, False)  # Online?
-PCOM_0106 = Course("PCOM_0106", 35, False)
+AVDM_0199 = Course("ACDM_0199", 3, False)  # Online?
+
+PCOM_0106= Course("PCOM_0106", 35, False)
 BCOM_TERM_2 = [SUPR_0821, SUPR_0822, SUPR_0836, SUPR_0836, AVDM_0199, PCOM_0106]
 # Term 3
 PCOM_0205 = Course("PCOM_0205", 30, False)
@@ -279,6 +306,12 @@ AVDM_0270 = Course("AVDM_0270", 18, True)
 DXDI_9901 = Course("DXDI_0991", 45, True)
 DXDI_TERM_3 = [AVDM_0238, AVDM_0270, DXDI_9901]
 
+AVDM_0165 = Course("ACDM_0165", 18, True)
+DXDI_0101 = Course("DXDI_0101", 24, True)
+DXDI_0102 = Course("DXDI_0102", 24, True)
+DXDI_TERM_1 = [AVDM_0165, DXDI_0101, DXDI_0102]
+
+
 # Bookkeeping (BK)
 # Term 1
 ACCT_0201 = Course("ACCT_0201", 18, False)
@@ -312,6 +345,7 @@ SCMT_0505 = Course("SCMT_0505", 21, False)
 PCOM_0151 = Course("PCOM_0151", 39, False)  # 13 Sessions, 3 Hours Each
 GL_TERM_3 = [SCMT_0505, PCOM_0151]
 
+
 # Business Analysis (BA)
 # Term 1
 PRDV_0640 = Course("PRDV_0640", 21, False)
@@ -328,6 +362,7 @@ BA_TERM_2 = [PRDV_0644, PRDV_0648, PCOM_0140]
 PRDV_0646 = Course("PRDV_0646", 14, False)
 PCOM_0141 = Course("PCOM_0141", 39, False)  # 13 Sessions, 3 Hours Each.
 BA_TERM_3 = [PRDV_0646, PCOM_0141]
+
 
 # Project Management (PM)
 # Term 1
@@ -346,7 +381,6 @@ PRDV_0207 = Course("PRDV_0207", 14, False)
 PCOM_0131 = Course("PCOM_0131", 39, False)
 PM_TERM_3 = [PRDV_0207, PCOM_0131]
 
-
 # Creation of Default Available Rooms.
 Room_1 = Room("11-533", 36, False)
 Room_2 = Room("11-534", 36, False)
@@ -358,7 +392,9 @@ Room_7 = Room("11-430", 30, False)
 Room_8 = Room("11-320", 30, False)
 Computer_Lab = Room("11-532", 30, True)
 
+
 # Structure Testing code.
+
 """
 if __name__ == "__main__":
     Computer_Lab.update_schedule(CMSK_0150, 0, 0, 0, 1)
