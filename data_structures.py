@@ -15,31 +15,7 @@ class Cohort:
         self.term = term
 
         # Finding Courses for Cohort.
-        if term == 1:
-            if name[0:2] == "PC":
-                self.courses = PCOM_TERM_1
-            elif name[0:2] == "BC":
-                self.courses = BCOM_TERM_1
-            elif name[0:2] == "PM":
-                self.courses = PM_TERM_1
-            elif name[0:2] == "BA":
-                self.courses = BA_TERM_1
-            elif name[0:2] == "GL":
-                self.courses = GL_TERM_1
-            elif name[0:2] == "DX":
-                self.courses = DXDI_TERM_1
-            elif name[0:2] == "FS":
-                self.courses = FS_TERM_1
-            elif name[0:2] == "BK":
-                self.courses = BK_TERM_1
-
-        elif term == 2:
-            pass
-        elif term == 3:
-            pass
-
-        
-
+        self.courses = set_courses(term, name[0:2])
 
         sizes = [24, 30, 36, 40]
         self.size = size
@@ -256,9 +232,7 @@ SUPR_0822 = Course("SUPR_0822", 7, False)
 SUPR_0718 = Course("SUPR_0718", 7, False)
 SUPR_0836 = Course("SUPR_0836", 7, False)
 AVDM_0199 = Course("AVDM_0199", 3, False)  # Online?
-AVDM_0199 = Course("ACDM_0199", 3, False)  # Online?
-
-PCOM_0106= Course("PCOM_0106", 35, False)
+PCOM_0106 = Course("PCOM_0106", 35, False)
 BCOM_TERM_2 = [SUPR_0821, SUPR_0822, SUPR_0836, SUPR_0836, AVDM_0199, PCOM_0106]
 # Term 3
 PCOM_0205 = Course("PCOM_0205", 30, False)
@@ -393,13 +367,9 @@ Room_8 = Room("11-320", 30, False)
 Computer_Lab = Room("11-532", 30, True)
 
 
-# Structure Testing code.
-
-"""
 if __name__ == "__main__":
     Computer_Lab.update_schedule(CMSK_0150, 0, 0, 0, 1)
     Computer_Lab.update_schedule(ACCT_0202, 0, 1, 0, 2)
     Computer_Lab.update_schedule(DXDI_0101, 0, 0, 3, 3)
     Computer_Lab.print_schedule()
-"""
 
