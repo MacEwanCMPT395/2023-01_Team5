@@ -411,17 +411,6 @@ class MainWindow(QMainWindow):
                 stre = stre + i                 
             return(stre)
         
-        #line_edit.returnPressed.connect(lambda: do_action())
-  
-        # method to do action
-        #def do_action():
-  
-            # getting text from the line edit
-            #value = line_edit.text()
-  
-            # setting text to the label
-            #lable.setText(value)
-        
       
 if __name__ == "__main__":
     App = QApplication(sys.argv)
