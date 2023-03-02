@@ -403,6 +403,13 @@ class MainWindow(QMainWindow):
         #settingText.make_cohort(self.listText)
         #print("clicked")
         self.close()
+
+
+        def __str__(self):
+            stre = ""
+            for i in self.list1:
+                stre = stre + i                 
+            return(stre)
         
       
 if __name__ == "__main__":
