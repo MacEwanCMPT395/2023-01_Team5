@@ -60,7 +60,7 @@ if __name__ == "__main__":
     window = webapp.MainWindow()
     #start the event loop
     App.exec()
-    make_cohort(window.listText)
+    #make_cohort(window.listText)
     #test(cohorts)
     
     '''for i in cohorts.keys():

@@ -14,5 +14,5 @@ def test(cohorts):
     for course in Computer_Lab.special_queue:
         Computer_Lab.update_schedule(course, 0, 0, 0 + slot, 1)
         slot += 3
-    Computer_Lab.print_schedule()
+    #Computer_Lab.print_schedule()
 

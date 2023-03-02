@@ -91,7 +91,7 @@ def request_room(cohorts):
 
 
 def main():
-    request_room(cohorts)
-    print()
-    print(unscehduled_cohorts)
-main()
+   # request_room(cohorts)
+    #print()
+    #print(unscehduled_cohorts)
+    main()
