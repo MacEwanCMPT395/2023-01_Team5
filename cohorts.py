@@ -92,6 +92,6 @@ def main():
             print(f'program {program} has {data[term][program]} students, divide into {cohorts} cohorts.')
             for c in range (len(listCohorts)):
                 cohort = createCohortObj(program, term, c+1, listCohorts[c])
-                #print(cohort)
+                print(cohort)
 
 main()
