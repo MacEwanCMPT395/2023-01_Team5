@@ -105,4 +105,4 @@ def request_room(cohorts):
 def main():
     request_room(cohorts)
     print(unscehduled_cohorts)
-main()
+    main()
