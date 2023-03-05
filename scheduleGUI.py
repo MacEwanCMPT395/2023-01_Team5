@@ -72,6 +72,7 @@ class MainWindow(QMainWindow):
         # Giving the count for the Column  
         self.roomSchedule.setColumnCount(3)  
     
+        #initializing the coloumns and rows
         self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))  
         self.roomSchedule.setItem(1, 0, QTableWidgetItem("8:00 AM"))  
         self.roomSchedule.setItem(2, 0, QTableWidgetItem("9:00 AM"))  
@@ -87,19 +88,55 @@ class MainWindow(QMainWindow):
         self.roomSchedule.setItem(12, 0, QTableWidgetItem("7:00 PM"))  
         self.roomSchedule.setItem(13, 0, QTableWidgetItem("8:00 PM"))  
         self.roomSchedule.setItem(14, 0, QTableWidgetItem("9:00 PM")) 
-        self.roomSchedule.setItem(0, 1, QTableWidgetItem("Monday/Wednesday"))
-        self.roomSchedule.setItem(0, 2, QTableWidgetItem("Tuesday/Thursday"))
 
+        self.roomSchedule.setItem(0, 1, QTableWidgetItem("Monday/Wednesday"))
+        self.roomSchedule.setItem(1, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(2, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(3, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(4, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(5, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(6, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(7, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(8, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(9, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(10, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(11, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(12, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(13, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(14, 1, QTableWidgetItem())
+        
+        self.roomSchedule.setItem(0, 2, QTableWidgetItem("Tuesday/Thursday"))
+        self.roomSchedule.setItem(1, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(2, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(3, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(4, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(5, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(6, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(7, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(8, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(9, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(10, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(11, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(12, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(13, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(14, 2, QTableWidgetItem())
+
+        #making the coloumns,rows, tables look pretty
         self.roomSchedule.verticalHeader().hide()
         self.roomSchedule.horizontalHeader().hide()
         self.roomSchedule.setColumnWidth(0, 100)
         self.roomSchedule.setColumnWidth(1,670)
         self.roomSchedule.setColumnWidth(2,670)
         #self.roomSchedule.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignCenter)
+
+        #setting box to a color
+        self.roomSchedule.item(1, 1).setBackground(QColor(125,125,125))
+
         '''showing the initial screen'''
         self.show()
 
 
+    
 
 if __name__ == "__main__":
     App = QApplication(sys.argv)
