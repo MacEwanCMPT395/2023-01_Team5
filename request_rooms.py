@@ -2,7 +2,7 @@ from data_structures import *
 
 
 #testing data
-cohorts = {"PM11": Cohort("PM11", 28, 1), "PM21": Cohort("PM21", 28, 1), "PM3": Cohort("PM31", 29, 1), "BA1": Cohort("BA11", 30, 1), "GLM21": Cohort("GLM21", 30, 1)}
+cohorts = {"FS21": Cohort("FS21", 30, 1), "FS22": Cohort("FS22", 30, 1), "PM3": Cohort("FS23", 30, 1), "BA1": Cohort("FS24", 30, 1), "FS25": Cohort("BA21", 30, 1)}
 
 #globals
 lecture_hours_program = {"PM1": 56, "PM2": 70, "PM3": 53, "BA1": 70, "BA2": 70, "BA3":53, "GLM1": 57, "GLM2": 36, "GLM3": 60,
@@ -18,16 +18,19 @@ unscehduled_cohorts = []
 #need to add case for FS night classes
 def request_room(cohorts):
     total_room_hours = WEEKS * 18
+    total_room_hours_night = WEEKS * 16
 
     #maybe change later to make dynamic
     rooms_program = [Room_1,  Room_2, Room_3, Room_4, Room_5, Room_6 , Room_7, Room_8]
     rooms_core = [Room_1,  Room_2, Room_3, Room_4, Room_5, Room_6 , Room_7, Room_8]
 
     hours_remaining_program = {Room_1.room_number: total_room_hours, Room_2.room_number: total_room_hours, Room_3.room_number: total_room_hours, Room_4.room_number: total_room_hours,
-        Room_5.room_number: total_room_hours, Room_6.room_number: total_room_hours, Room_7.room_number: total_room_hours, Room_8.room_number: total_room_hours, Computer_Lab: total_room_hours}
+        Room_5.room_number: total_room_hours, Room_6.room_number: total_room_hours, Room_7.room_number: total_room_hours, Room_8.room_number: total_room_hours, Computer_Lab.room_number: total_room_hours}
 
     hours_remaining_core = {Room_1.room_number: total_room_hours, Room_2.room_number: total_room_hours, Room_3.room_number: total_room_hours, Room_4.room_number: total_room_hours,
-        Room_5.room_number: total_room_hours, Room_6.room_number: total_room_hours, Room_7.room_number: total_room_hours, Room_8.room_number: total_room_hours, Computer_Lab: total_room_hours}
+        Room_5.room_number: total_room_hours, Room_6.room_number: total_room_hours, Room_7.room_number: total_room_hours, Room_8.room_number: total_room_hours, Computer_Lab.room_number: total_room_hours}
+
+    hours_remaining_night = {Computer_Lab.room_number: total_room_hours_night}
 
     rooms_program.sort(key=lambda room: room.capacity)
     rooms_core.sort(key=lambda room: room.capacity)
@@ -45,18 +48,26 @@ def request_room(cohorts):
                     scheduled = True
                     break
             if not scheduled:
-                unscehduled_cohorts.append(cohort)
+                unscehduled_cohorts.append([cohort, "lecture"])
 
         #check if it is a program specific with lab
         if cohort.name[:len(cohort.name) - 1] in lab_hours_program.keys():
             scheduled = False
-            if hours_remaining_program[Computer_Lab] >= lab_hours_program[cohort.name[:len(cohort.name) - 1]]:
-                #if it does, reduce the hours in the classroom
-                hours_remaining_program[room.room_number] -= lecture_hours_program[cohort.name[:len(cohort.name) - 1]]
-                scheduled = True
-                break
-            if not scheduled:
-                unscehduled_cohorts.append(cohort)
+            #separate case for FS
+            if cohort.name[:len(cohort.name) - 2] == "FS":
+                if hours_remaining_night[Computer_Lab.room_number] >= lab_hours_program[cohort.name[:len(cohort.name) - 1]]:
+                    #if it does, reduce the hours in the classroom
+                    hours_remaining_night[Computer_Lab.room_number] -= lab_hours_program[cohort.name[:len(cohort.name) - 1]]
+                    scheduled = True
+            else:
+                if hours_remaining_program[Computer_Lab.room_number] >= lab_hours_program[cohort.name[:len(cohort.name) - 1]]:
+                    #if it does, reduce the hours in the classroom
+                    hours_remaining_program[Computer_Lab.room_number] -= lab_hours_program[cohort.name[:len(cohort.name) - 1]]
+                    scheduled = True
+            if not scheduled and cohort.name[:len(cohort.name) - 2] == "FS":
+                unscehduled_cohorts.append([cohort, "lab_night"])
+            elif not scheduled:
+                unscehduled_cohorts.append([cohort, "lab_day"])
 
         #check if it is core with lecture
         if cohort.name[:(len(cohort.name) - 1)] in lecture_hours_core.keys():
@@ -67,23 +78,24 @@ def request_room(cohorts):
                     #if it does, reduce the hours in the classroom
                     hours_remaining_core[room.room_number] -= lecture_hours_core[cohort.name[:len(cohort.name) - 1]]
                     scheduled = True
-                    break
             if not scheduled:
-                unscehduled_cohorts.append(cohort)
+                unscehduled_cohorts.append([cohort, "lecture"])
 
         #check if it is core with lab
         if cohort.name[:len(cohort.name) - 1] in lab_hours_core.keys():
             scheduled = False
             if hours_remaining_core[Computer_Lab] >= lab_hours_core[cohort.name[:len(cohort.name) - 1]]:
                 #if it does, reduce the hours in the classroom
-                hours_remaining_core[room.room_number] -= lecture_hours_core[cohort.name[:len(cohort.name) - 1]]
+                hours_remaining_core[Computer_Lab.room_number] -= lab_hours_core[cohort.name[:len(cohort.name) - 1]]
                 scheduled = True
-                break
             if not scheduled:
-                unscehduled_cohorts.append(cohort)
+                unscehduled_cohorts.append([cohort, "lab_day"])
+
+
     #check if all cohorts scheduled
-    print(hours_remaining_core.items())
-    print(hours_remaining_program.items())
+    print("Core course:" + str(hours_remaining_core.items()))
+    print("Program specific:" + str(hours_remaining_program.items()))
+    print("Night lab:" + str(hours_remaining_night.items()))
     if len(unscehduled_cohorts) != 0:
         return True
     return False
@@ -92,6 +104,5 @@ def request_room(cohorts):
 
 def main():
     request_room(cohorts)
-    print()
     print(unscehduled_cohorts)
 main()
