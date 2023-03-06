@@ -606,7 +606,7 @@ class MainWindow(QMainWindow):
         self.listText.append(int(text24))
         print (self.listText)
         #settingText.make_cohort(self.listText)
-        print("clicked")
+        #print("clicked")
         self.close()
         
 if __name__ == "__main__":
