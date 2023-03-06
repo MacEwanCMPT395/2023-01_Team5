@@ -7,7 +7,7 @@ from PyQt5.QtGui import *
 from request_rooms import *
 from os import *
 import settingText
-#import pandas as pd
+import pandas as pd
 
 
 # Subclass QMainWindow to customize your application's main window
@@ -548,7 +548,7 @@ class MainWindow(QMainWindow):
         self.dfList = self.df.values.tolist()
         self.UiComponents2()
         self.show()
-        print ("ughyt")
+        #print ("ughyt")
 
     def warning(self, rooms):
         msg = QMessageBox()
@@ -614,13 +614,13 @@ class MainWindow(QMainWindow):
         self.listText.append(int(text22))
         self.listText.append(int(text23))
         self.listText.append(int(text24))
-        print (self.listText)
+        print ("numbers of students per program",self.listText)
 
         settingText.make_cohort(self.listText)
         rooms = request_room(settingText.cohorts)
         if len(rooms) != 0:
             self.warning(rooms)
-        print("clicked")
+        #print("clicked")
         self.close()
 
 if __name__ == "__main__":

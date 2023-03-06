@@ -20,6 +20,7 @@ def request_room(cohorts):
     total_room_hours = WEEKS * 18
     total_room_hours_night = WEEKS * 16
 
+
     hours_remaining_program = {Room_1.room_number: total_room_hours, Room_2.room_number: total_room_hours, Room_3.room_number: total_room_hours, Room_4.room_number: total_room_hours,
         Room_5.room_number: total_room_hours, Room_6.room_number: total_room_hours, Room_7.room_number: total_room_hours, Room_8.room_number: total_room_hours, Computer_Lab.room_number: total_room_hours}
 
