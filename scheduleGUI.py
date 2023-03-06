@@ -8,7 +8,7 @@ import pandas as pd
 import data_structures as dataStruc
 
 # Subclass QMainWindow to customize your application's main window
-class MainWindow(QMainWindow):
+class MainWindow2(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -365,7 +365,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     App = QApplication(sys.argv)
-    window = MainWindow()
+    window = MainWindow2()
     #start the event loop
     App.exec()
     print("hello")

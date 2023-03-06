@@ -372,4 +372,3 @@ if __name__ == "__main__":
     Computer_Lab.update_schedule(ACCT_0202, 0, 1, 0, 2)
     Computer_Lab.update_schedule(DXDI_0101, 0, 0, 3, 3)
     Computer_Lab.print_schedule()
-
