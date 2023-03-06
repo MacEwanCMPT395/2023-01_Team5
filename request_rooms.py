@@ -20,7 +20,6 @@ def request_room(cohorts):
     total_room_hours = WEEKS * 18
     total_room_hours_night = WEEKS * 16
 
-    #maybe change later to make dynamic
 
     hours_remaining_program = {Room_1.room_number: total_room_hours, Room_2.room_number: total_room_hours, Room_3.room_number: total_room_hours, Room_4.room_number: total_room_hours,
         Room_5.room_number: total_room_hours, Room_6.room_number: total_room_hours, Room_7.room_number: total_room_hours, Room_8.room_number: total_room_hours, Computer_Lab.room_number: total_room_hours}
@@ -45,8 +44,8 @@ def request_room(cohorts):
                     hours_remaining_program[room.room_number] -= lecture_hours_program[cohort.name[:len(cohort.name) - 1]]
                     scheduled = True
                     break
+            if not scheduled:
                 unscehduled_cohorts.append("Lecture")
-
 
         #check if it is a program specific with lab
         if cohort.name[:len(cohort.name) - 1] in lab_hours_program.keys():
