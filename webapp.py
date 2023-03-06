@@ -615,6 +615,7 @@ class MainWindow(QMainWindow):
         self.listText.append(int(text23))
         self.listText.append(int(text24))
         print (self.listText)
+
         settingText.make_cohort(self.listText)
         rooms = request_room(settingText.cohorts)
         if len(rooms) != 0:
