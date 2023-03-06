@@ -11,6 +11,9 @@ lab_hours_program = {"FS1": 80, "FS2": 86, "FS3": 50, "DXD1": 66, "DXD2":84, "DX
 
 lab_hours_core = {"PCOM1": 31, "PCOM2": 18, "PCOM3": 8}
 
+rooms_program = [Room_1,  Room_2, Room_3, Room_4, Room_5, Room_6 , Room_7, Room_8]
+rooms_core = [Room_1,  Room_2, Room_3, Room_4, Room_5, Room_6 , Room_7, Room_8]
+
 unscehduled_cohorts = []
 #need to add case for FS night classes
 def request_room(cohorts):
@@ -18,8 +21,6 @@ def request_room(cohorts):
     total_room_hours_night = WEEKS * 16
 
     #maybe change later to make dynamic
-    rooms_program = [Room_1,  Room_2, Room_3, Room_4, Room_5, Room_6 , Room_7, Room_8]
-    rooms_core = [Room_1,  Room_2, Room_3, Room_4, Room_5, Room_6 , Room_7, Room_8]
 
     hours_remaining_program = {Room_1.room_number: total_room_hours, Room_2.room_number: total_room_hours, Room_3.room_number: total_room_hours, Room_4.room_number: total_room_hours,
         Room_5.room_number: total_room_hours, Room_6.room_number: total_room_hours, Room_7.room_number: total_room_hours, Room_8.room_number: total_room_hours, Computer_Lab.room_number: total_room_hours}
