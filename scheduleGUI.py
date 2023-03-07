@@ -6,6 +6,11 @@ from PyQt5.QtGui import *
 import settingText
 import pandas as pd
 import data_structures as dataStruc
+import webapp
+from algorithm import *
+from cohorts import *
+from request_rooms import *
+import scheduleGUI
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow2(QMainWindow):
@@ -186,10 +191,11 @@ class MainWindow2(QMainWindow):
         self.roomSchedule.setColumnWidth(1,670)
         self.roomSchedule.setColumnWidth(2,670)
 
-        dataStruc.Computer_Lab.update_schedule(dataStruc.CMSK_0150, 0, 0, 0, 1)
+        '''dataStruc.Computer_Lab.update_schedule(dataStruc.CMSK_0150, 0, 0, 0, 1)
         dataStruc.Computer_Lab.update_schedule(dataStruc.ACCT_0202, 0, 1, 0, 2)
         dataStruc.Computer_Lab.update_schedule(dataStruc.DXDI_0101, 0, 0, 3, 3)
-        #dataStruc.Computer_Lab.print_schedule()
+        #dataStruc.Computer_Lab.print_schedule()'''
+
 
         '''showing the initial screen'''
         self.show()
@@ -293,9 +299,15 @@ class MainWindow2(QMainWindow):
         self.roomSchedule.setItem(24, 2, QTableWidgetItem())  
         self.roomSchedule.setItem(25, 2, QTableWidgetItem())
         
+        all_cohorts = [Cohort("FS_1", 30, 1), Cohort("PCOM_1", 27, 1), Cohort("BA_1", 29, 1)]
+
+        algorithm(all_cohorts, [Computer_Lab, Room_8])
+        dataStruc.Room_8.print_schedule()
+        #dataStruc.Computer_Lab.schedule()
+
         weeklist = []
         w = 0
-        for week in dataStruc.Computer_Lab.schedule:
+        for week in dataStruc.Room_8.schedule:
                 w += 1
                 d = 0
                 co = 0

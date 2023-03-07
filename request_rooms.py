@@ -90,6 +90,6 @@ def request_room(cohorts):
                 unscehduled_cohorts.append("Daytime Computer Lab")
     #check if all cohorts scheduled
     #print("Core course:" + str(hours_remaining_core.items()))
-    print("Program specific:" + str(hours_remaining_program.items()))
+    #print("Program specific:" + str(hours_remaining_program.items()))
     #print("Night lab:" + str(hours_remaining_night.items()))
     return set(unscehduled_cohorts)

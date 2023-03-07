@@ -28,6 +28,7 @@ def make_cohort(list12):
             cohorts[name] = Cohort(name, num, cohort_num)
             cohort_num += 1
         program_num += 1
+    
 
 if __name__ == "__main__":
     #first schedule builder window
@@ -35,10 +36,13 @@ if __name__ == "__main__":
     window = webapp.MainWindow()
     #start the event loop
     App.exec()
+
+    #making cohorts
     make_cohort(window.listText)
+
     #print(cohorts.keys()) #printing out cohorts made
     #print(cohorts.values())
-
+    
     #making list of cohorts
     cohort_list = []
     for cohort in cohorts.values(): 
@@ -46,7 +50,10 @@ if __name__ == "__main__":
     print("cohort list",cohort_list)
 
     #list of rooms
-    print ("rooms list", rooms_program)
+    print ("rooms list", ROOMS)
+
+    r = algorithm(cohort_list, [Computer_Lab, Room_8])
+    print(r)
 
 
 
