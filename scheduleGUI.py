@@ -224,8 +224,8 @@ class MainWindow2(QMainWindow):
         fallDict = {1:"(Sept 4-10)", 2: "(Sept 11-17)", 3: "(Sept 18-24)", 4: "(Sept 25-Oct 1)", 5: "(Oct 2-8)", 
                     6: "(Oct 9-15)", 7: "(Oct 16-22)", 8: "(Oct 23-2)"}
         
-        print("Current room selected", self.ctext)
-        print("Current week selected", self.wtext)
+        #print("Current room selected", self.ctext)
+        #print("Current week selected", self.wtext)
 
         print("week index: ", self.weekIndex)
         self.roomSchedule.clearContents()
@@ -376,8 +376,11 @@ class MainWindow2(QMainWindow):
                         class1 = str(day)
                         list2.append(str(day))
                         if len(list3) == 0:
-                              list3.append(str(day))
-                              self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
+                              if (str(day) == "None"):
+                                    pass
+                              else: 
+                                list3.append(str(day))
+                                self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
                         else:
                                 if str(day) in list3:
                                         pass
