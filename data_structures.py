@@ -17,7 +17,7 @@ class Cohort:
         # Finding Courses for Cohort.
         self.courses = set_courses(term, name[0:2])
 
-        sizes = [24, 30, 36, 40]
+        sizes = [24, 30, 36, 40]  #size of classrooms we have 
         self.size = size
         for s in sizes:
             if size > s:

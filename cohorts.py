@@ -8,9 +8,17 @@ properly book the rooms.
 for our seven programs (e.g., PM0101, PM0102, PM0201, DXD0302).
 
 Want to give some extra space when schedule the cohort 
-
 '''
 
+'''
+COHORT requirements:
+    - Each student will belong to 2 cohorts
+        1. PCOM or BCOM cohort. 
+        2. their specific program courses. 
+
+    - PCOM/BCOM on Tue + Thu and the minimum capacity of each class is 30 students
+    
+'''
 import numpy as np
 
 # We have 9 classrooms
