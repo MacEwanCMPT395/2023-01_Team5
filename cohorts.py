@@ -90,7 +90,7 @@ def createCohortObj(program, term, cohort, size):
     return cohort
 
 
-def main():
+'''def main():
     for term in range (len(data)):
         for program in data[term]:
             cohorts = numCohorts(data[term][program])
@@ -100,4 +100,4 @@ def main():
                 cohort = createCohortObj(program, term, c+1, listCohorts[c])
                 print(cohort)
 
-main()
+main()'''
