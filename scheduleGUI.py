@@ -3,14 +3,21 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-import settingText
-import pandas as pd
+import settingText as setText
 import data_structures as dataStruc
+import webapp
+from data_structures import *
+from algorithm import *
+from cohorts import *
+from request_rooms import *
+
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow2(QMainWindow):
-    def __init__(self):
+    def __init__(self, listofRooms):
         super().__init__()
+
+        self.listofRooms = listofRooms
 
         '''making the schedule builder window'''
         self.acceptDrops()
@@ -48,7 +55,8 @@ class MainWindow2(QMainWindow):
         self.roomNumber = QComboBox(self)
         self.roomNumber.move(190,180)
         self.roomNumber.resize(190,35)
-        self.roomNumber.addItems(["", dataStruc.Computer_Lab.room_number])
+        for room in self.listofRooms:
+              self.roomNumber.addItems([room.__str__()])
         self.roomNumber.activated.connect(self.roomChosen)
 
         '''week combo box'''
@@ -186,13 +194,21 @@ class MainWindow2(QMainWindow):
         self.roomSchedule.setColumnWidth(1,670)
         self.roomSchedule.setColumnWidth(2,670)
 
-        dataStruc.Computer_Lab.update_schedule(dataStruc.CMSK_0150, 0, 0, 0, 1)
+        '''dataStruc.Computer_Lab.update_schedule(dataStruc.CMSK_0150, 0, 0, 0, 1)
         dataStruc.Computer_Lab.update_schedule(dataStruc.ACCT_0202, 0, 1, 0, 2)
         dataStruc.Computer_Lab.update_schedule(dataStruc.DXDI_0101, 0, 0, 3, 3)
-        #dataStruc.Computer_Lab.print_schedule()
+        #dataStruc.Computer_Lab.print_schedule()'''
+
+        '''all_cohorts = [Cohort("FS_1", 30, 1), Cohort("PCOM_1", 27, 1), Cohort("BA_1", 29, 1)]
+
+        algorithm(all_cohorts, [Computer_Lab, Room_8])
+        dataStruc.Room_8.print_schedule()'''
+        #dataStruc.Computer_Lab.schedule()
 
         '''showing the initial screen'''
+        #print(listofRooms)
         self.show()
+
     
     def roomChosen(self,index):
         self.ctext = self.roomNumber.itemText(index)  # Get the text at index.
@@ -208,8 +224,9 @@ class MainWindow2(QMainWindow):
         fallDict = {1:"(Sept 4-10)", 2: "(Sept 11-17)", 3: "(Sept 18-24)", 4: "(Sept 25-Oct 1)", 5: "(Oct 2-8)", 
                     6: "(Oct 9-15)", 7: "(Oct 16-22)", 8: "(Oct 23-2)"}
         
-        #print("Current room selected", self.ctext)
-        #print("Current room selected", self.wtext)
+        print("Current room selected", self.ctext)
+        print("Current week selected", self.wtext)
+
         print("week index: ", self.weekIndex)
         self.roomSchedule.clearContents()
         self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))  
@@ -293,18 +310,34 @@ class MainWindow2(QMainWindow):
         self.roomSchedule.setItem(24, 2, QTableWidgetItem())  
         self.roomSchedule.setItem(25, 2, QTableWidgetItem())
         
-        weeklist = []
-        w = 0
-        for week in dataStruc.Computer_Lab.schedule:
-                w += 1
-                d = 0
-                co = 0
-                weekdayList = []
-                for weekday in week:
-                        weekdayList.append(weekday)
-                        co+=1
-                        d += 1
-                weeklist.append(weekdayList)
+        if dataStruc.Room_8.room_number == self.ctext:
+                weeklist = []
+                w = 0
+                for week in dataStruc.Room_8.schedule:
+                        w += 1
+                        d = 0
+                        co = 0
+                        weekdayList = []
+                        for weekday in week:
+                                weekdayList.append(weekday)
+                                co+=1
+                                d += 1
+                        weeklist.append(weekdayList)
+                colorChoice = 0
+        elif dataStruc.Computer_Lab.room_number == self.ctext:
+                weeklist = []
+                w = 0
+                for week in dataStruc.Computer_Lab.schedule:
+                        w += 1
+                        d = 0
+                        co = 0
+                        weekdayList = []
+                        for weekday in week:
+                                weekdayList.append(weekday)
+                                co+=1
+                                d += 1
+                        weeklist.append(weekdayList)
+                colorChoice = 0
 
         #print(weeklist)
         #print (weeklist[0][0][0]) #gives class name
@@ -314,13 +347,70 @@ class MainWindow2(QMainWindow):
         #setting class schedule
         class1 = ""
         nextClass = ""
-        colorList = ["darkRed", "yellow",  "green", "cyan", "purple", "gray", "brown"]
+        colorList = ["darkRed", "yellow",  "green", "cyan", "purple", "blue", "gray", "brown","red","darkGreen","darkMagenta","darkYellow","darkGreen", "darkBlue"]
         row = 1
         coloumn = 1
         checkClass = False
         count = 0
-        colorChoice = 0
 
+        #lectures: 18
+        #labs: 25
+        list2 = []
+        list3 = []
+        counter = 0
+        for week2 in weeklist[self.weekIndex-1]:
+             if count == 2:
+                colorChoice = 0
+                break
+             else:
+                count+=1
+                row = 1
+                countTimes = len(week2)+1
+                #print(len(week2)+1)
+                
+                for day in week2:
+                        if (counter == countTimes-1):
+                                #print("nextday")
+                                coloumn+=1
+                                list2.clear()
+                        class1 = str(day)
+                        list2.append(str(day))
+                        if len(list3) == 0:
+                              list3.append(str(day))
+                              self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
+                        else:
+                                if str(day) in list3:
+                                        pass
+                                else:
+                                      list3.append(str(day))
+                                      if str(day) == "None":
+                                            pass
+                                      else:
+                                        self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
+                                        colorChoice+=1
+                        
+                        if (str(day) == "None"):
+                                row += 1
+                                counter+=1
+                                #print(row,coloumn)
+                                pass
+                        else:   
+                                if str(day) in list2:
+                                     self.roomSchedule.item(row, coloumn).setBackground(QColor(colorList[colorChoice]))
+                                     list2.append(str(day))
+                                     row += 1
+                                     counter+=1
+                                     #print(row,coloumn)
+                                     #print(str(day))
+                                else:
+                                      self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
+                                      if class1 in list2:
+                                            list2.pop()  
+                                      list2.append(str(day))
+                                      row += 1
+                                      counter+=1                 
+        
+        '''
         for week2 in weeklist[self.weekIndex-1]:
                 #print ("hi",week2)
                 class1 = str(week2[0])
@@ -358,54 +448,21 @@ class MainWindow2(QMainWindow):
                 else:
                         coloumn +=1
                         row = 1
-
         
-        
+        '''
 
 
 if __name__ == "__main__":
+    #first schedule builder window
+    App = QApplication(sys.argv)
+    window = webapp.MainWindow()
+    #start the event loop
+    App.exec()
+
     App = QApplication(sys.argv)
     window = MainWindow2()
     #start the event loop
     App.exec()
     print("hello")
 
-    ''' 
-        15 weeks
-        11-532
-Week 1:
-Mon: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Tue: [ACCT_0202, ACCT_0202, ACCT_0202, ACCT_0202, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Wed: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Thu: [ACCT_0202, ACCT_0202, ACCT_0202, ACCT_0202, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Week 2:
-Mon: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Tue: [ACCT_0202, ACCT_0202, ACCT_0202, ACCT_0202, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Wed: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Thu: [ACCT_0202, ACCT_0202, ACCT_0202, ACCT_0202, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Week 3:
-Mon: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Tue: [ACCT_0202, ACCT_0202, ACCT_0202, ACCT_0202, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Wed: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Thu: [ACCT_0202, ACCT_0202, ACCT_0202, ACCT_0202, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Week 4:
-Mon: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Tue: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Wed: [CMSK_0150, CMSK_0150, CMSK_0150, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, DXDI_0101, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Thu: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Week 5:
-Mon: [CMSK_0150, CMSK_0150, CMSK_0150, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Tue: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Wed: [CMSK_0150, CMSK_0150, CMSK_0150, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Thu: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Week 6:
-Mon: [CMSK_0150, CMSK_0150, CMSK_0150, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Tue: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Wed: [CMSK_0150, CMSK_0150, CMSK_0150, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Thu: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Week 7:
-Mon: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Tue: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Wed: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-Thu: [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-        '''
+ 

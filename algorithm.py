@@ -61,8 +61,10 @@ def algorithm(cohorts, rooms):
                             slot += course.slot_type * 2
                         # room.special_queue.append(course)
 
-    """
     all_rooms = lectures + labs
+    return all_rooms
+    """
+    
     ### Scheduling of courses from queues.
     for room in all_rooms:
     """
@@ -80,3 +82,4 @@ if __name__ == "__main__":
 
     Room_8.print_schedule()
     Computer_Lab.print_schedule()
+

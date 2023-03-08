@@ -8,10 +8,20 @@ from request_rooms import *
 from os import *
 import settingText
 import pandas as pd
-
+from scheduleGUI import MainWindow2
+from data_structures import *
+from algorithm import *
+from cohorts import *
+from request_rooms import *
+import settingText as setText
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
+    def openScheduleBuilder(self):
+        self.window = QMainWindow()
+        self.ui = MainWindow2(self.window)
+        self.window.show()
+
     def __init__(self):
         super().__init__()
 
@@ -614,7 +624,7 @@ class MainWindow(QMainWindow):
         self.listText.append(int(text22))
         self.listText.append(int(text23))
         self.listText.append(int(text24))
-        print ("numbers of students per program",self.listText)
+        #print ("numbers of students per program",self.listText)
 
         settingText.make_cohort(self.listText)
         rooms = request_room(settingText.cohorts)
@@ -622,6 +632,7 @@ class MainWindow(QMainWindow):
             self.warning(rooms)
         #print("clicked")
         self.close()
+        #self.openScheduleBuilder()
 
 if __name__ == "__main__":
     App = QApplication(sys.argv)
