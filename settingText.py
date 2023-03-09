@@ -15,7 +15,7 @@ import scheduleGUI
 program_names = ["PM1", "PM2", "PM3", "BA1", "BA2", "BA3", "GLM1", "GLM2", "GLM3", "FS1", "FS2", "FS3", "DXD1", "DXD2", "DXD3", "BK1", "BK2", "BK3", "PCOM1", "PCOM2", "PCOM3", "BCOM1", "BCOM2", "BCOM3"] #used for naming
 cohorts = {} #store Cohort objects
 
-def make_cohort(list12):
+def make_cohort(list12):    
     program_size = list12
     program_num = 0 # used to index program_size array
     for num_registrants in program_size:
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
     #print("list of rooms scheduled", listOfRooms)
 
-    #Room_8.print_schedule()
+    Room_8.print_schedule()
     #Computer_Lab.print_schedule()
 
     #second schedule builder window
