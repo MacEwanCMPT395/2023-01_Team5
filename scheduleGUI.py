@@ -476,8 +476,8 @@ class MainWindow2(QMainWindow):
 
         
         '''color randomizer code'''
-        color = tuple(random.choices(range(256), k=3))
-        print("color", color)
+        #color = tuple(random.choices(range(256), k=3))
+        #print("color", color)
         class1 = ""
         nextClass = ""
         colorList = ["darkRed", "yellow",  "green", "cyan", "purple", "blue", "gray", "brown","red","darkGreen","darkMagenta","darkYellow","darkGreen", "darkBlue"]
@@ -489,14 +489,56 @@ class MainWindow2(QMainWindow):
         colorChoice = 0
 
         for course2 in listToUse:
-              if (type(course2) == int):
-                    print("day change", course2)
-                    coloumn+=1
-                    row = 1    
+              if (type(course2) == int) :
+                    if (course2 == 1):
+                          print("day change", course2, coloumn)
+                          pass
+                    else:
+                        print("day change", course2, coloumn)
+                        coloumn+=1
+                        row = 1
+                        list3.clear()    
+                    
               else:
-                    self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(course2)))
-                    row+=1
-                    print(course2)
+                    if (str(course2) == "None"):
+                          row+=1
+                    else:
+                        if (len(list3)== 0):
+                                list3.append(str(course2))
+                                #setting colors
+                                color = tuple(random.choices(range(256), k=3))
+                                print("color", color)
+                                firstNum = color[0]
+                                secondNum = color[1]
+                                thirdNum = color[2]
+                                self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(course2)))
+                                self.roomSchedule.item(row, coloumn).setBackground(QColor(firstNum,secondNum,thirdNum))
+                                row+=1
+                                print(course2)
+                        else:
+                                if (str(course2) in list3):
+                                        #printing course
+                                        self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(course2)))
+                                        self.roomSchedule.item(row, coloumn).setBackground(QColor(firstNum,secondNum,thirdNum))
+                                        #incrementing
+                                        row+=1
+                                        print(course2)
+                                else:
+                                        list3.append(str(course2))
+                                        #setting colors
+                                        color = tuple(random.choices(range(256), k=3))
+                                        print("color", color)
+                                        firstNum = color[0]
+                                        secondNum = color[1]
+                                        thirdNum = color[2]
+                                        #printing course
+                                        self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(course2)))
+                                        self.roomSchedule.item(row, coloumn).setBackground(QColor(firstNum,secondNum,thirdNum))
+                                        #incrementing
+                                        row+=1
+                                        print(course2)
+                                        
+                                
 
         '''
         for week2 in weeklist[self.weekIndex-1]:
