@@ -55,7 +55,7 @@ if __name__ == "__main__":
     listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
     #print("list of rooms scheduled", listOfRooms)
 
-    Room_8.print_schedule()
+    #Room_8.print_schedule()
     #Computer_Lab.print_schedule()
 
     #second schedule builder window
