@@ -98,5 +98,5 @@ def create_room(course, room_size, room_list):
     if course.requireslab == True:
         new_room = Room("Extra lab", room_size, True)
     else:
-        new_room = Room("Extra room", room_size, False)
+        new_room = Room("Extra lecture", room_size, False)
     room_list.append(new_room)
