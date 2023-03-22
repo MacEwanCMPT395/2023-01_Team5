@@ -31,12 +31,26 @@ def make_cohort(list12):
         program_num += 1
 
 
+def make_room_object(room_list_raw, room_list):
+    for room in room_list_raw:
+        if room_list_raw[1] == "Y":
+            room_list.append(Room(room_list_raw[0], room_list_raw[2], True))
+        else:
+            room_list.append(Room(room_list_raw[0], room_list_raw[2], False))
+
+        
 if __name__ == "__main__":
     #first schedule builder window
     App = QApplication(sys.argv)
     window = webapp.MainWindow()
     #start the event loop
     App.exec()
+
+    globalRoomList = []
+    make_room_object(window.roomList, globalRoomList)
+
+    #for i in globalRoomList:
+        #print(i)
 
     #making cohorts
     make_cohort(window.listText)
