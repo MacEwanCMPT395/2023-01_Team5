@@ -9,7 +9,7 @@ from os import *
 import settingText
 import pandas as pd
 from scheduleGUI import MainWindow2
-from data_structures import *
+import data_structures as dataStruct
 from algorithm import *
 from cohorts import *
 from request_rooms import *
@@ -550,12 +550,28 @@ class MainWindow(QMainWindow):
                      "border-right-color :#902a39;"
                      "border-bottom-color : #902a39")
 
+
+
+    '''this uplaods excel file and extracts what is needed from it'''
     def clicked(self):
-        '''this uplaods excel file and extracts what is needed from it'''
+        #closing scrren so other new screen can open
         self.close()
-        self.data = pd.read_excel('C:\\Users\\ayesh\\Documents\\University\\cmpt 395\\test\\2023-01_Team5-Schedule-System-\\test file.xlsx')
+        
+        #code will change here to account for students
+        self.data = pd.read_excel('test file.xlsx', sheet_name='Sheet1')
         self.df = pd.DataFrame(self.data, columns=['Numbers'])
         self.dfList = self.df.values.tolist()
+
+
+        #code for room list
+        self.data1 = pd.read_excel('test file.xlsx', sheet_name='Sheet2')
+        self.room = pd.DataFrame(self.data1, columns=['Room Number', 'Lab (Y/N)','Capacity'])
+        self.roomList = self.room.values.tolist()
+        print(self.roomList)
+
+        self.globalRoomList = []
+        
+        #showing new screens
         self.UiComponents2()
         self.show()
         #print ("ughyt")
@@ -626,6 +642,7 @@ class MainWindow(QMainWindow):
         self.listText.append(int(text24))
         #print ("numbers of students per program",self.listText)
 
+        settingText.make_room_object(self.roomList,self.globalRoomList)
         settingText.make_cohort(self.listText)
         rooms = request_room(settingText.cohorts)
         if len(rooms) != 0:

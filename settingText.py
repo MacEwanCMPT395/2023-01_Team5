@@ -15,7 +15,7 @@ import scheduleGUI
 program_names = ["PM1", "PM2", "PM3", "BA1", "BA2", "BA3", "GLM1", "GLM2", "GLM3", "FS1", "FS2", "FS3", "DXD1", "DXD2", "DXD3", "BK1", "BK2", "BK3", "PCOM1", "PCOM2", "PCOM3", "BCOM1", "BCOM2", "BCOM3"] #used for naming
 cohorts = {} #store Cohort objects
 
-def make_cohort(list12):
+def make_cohort(list12):    
     program_size = list12
     program_num = 0 # used to index program_size array
     for num_registrants in program_size:
@@ -31,12 +31,26 @@ def make_cohort(list12):
         program_num += 1
 
 
+def make_room_object(room_list_raw, room_list):
+    for room in room_list_raw:
+        if room_list_raw[1] == "Y":
+            room_list.append(Room(room_list_raw[0], room_list_raw[2], True))
+        else:
+            room_list.append(Room(room_list_raw[0], room_list_raw[2], False))
+
+        
 if __name__ == "__main__":
     #first schedule builder window
     App = QApplication(sys.argv)
     window = webapp.MainWindow()
     #start the event loop
     App.exec()
+
+    globalRoomList = []
+    make_room_object(window.roomList, globalRoomList)
+
+    #for i in globalRoomList:
+        #print(i)
 
     #making cohorts
     make_cohort(window.listText)
