@@ -156,6 +156,12 @@ class MainWindow(QMainWindow):
         self.upload.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.upload.clicked.connect(self.clicked)
 
+        '''making the submit button'''
+        self.aCourse = QPushButton("Edit Courses", self)
+        self.aCourse.setGeometry(280,700,150,25)
+        self.aCourse.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        #self.aCubmit.clicked.connect(self.clickSubmit)
+
         '''showing the initial screen'''
         self.show()
 
