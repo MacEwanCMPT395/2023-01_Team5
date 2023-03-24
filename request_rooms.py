@@ -93,3 +93,10 @@ def request_room(cohorts):
     #print("Program specific:" + str(hours_remaining_program.items()))
     #print("Night lab:" + str(hours_remaining_night.items()))
     return set(unscehduled_cohorts)
+
+def create_room(course, room_size, room_list):
+    if course.requireslab == True:
+        new_room = Room("Extra lab", room_size, True)
+    else:
+        new_room = Room("Extra lecture", room_size, False)
+    room_list.append(new_room)
