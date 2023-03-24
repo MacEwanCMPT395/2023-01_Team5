@@ -4,13 +4,15 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import settingText as setText
-import data_structures as dataStruc
+#import data_structures as dataStruc
+from data_structures import *
 import webapp
 from data_structures import *
 from algorithm import *
 from cohorts import *
 from request_rooms import *
 import random
+import xlwt
 
 
 # Subclass QMainWindow to customize your application's main window
@@ -69,29 +71,28 @@ class MainWindow2(QMainWindow):
         self.weekNumber = QComboBox(self)
         self.weekNumber.move(190,220)
         self.weekNumber.resize(190,35)
-        self.weekNumber.addItems(["", "1:(Sept 4-10)", "2: (Sept 11-17)", "3: (Sept 18-24)", "4: (Sept 25-Oct 1)", "5: (Oct 2-8)", 
-                    "6: (Oct 9-15)", "7: (Oct 16-22)", "8: (Oct 23-28)", "9: (Oct 29-Nov 4)", "10: (Nov 5-11)","11: (Nov 12-18)",
-                    "11: (Nov 12-18)", "12: (Nov 19-25)", "13: (Nov 26-Dec 2)", "14: (Dec 3-9)"])
+        self.weekNumber.addItems(["", "1 (Sept 4-10)", "2 (Sept 11-17)", "3 (Sept 18-24)", "4 (Sept 25-Oct 1)", "5 (Oct 2-8)", 
+                    "6 (Oct 9-15)", "7 (Oct 16-22)", "8 (Oct 23-28)", "9 (Oct 29-Nov 4)", "10 (Nov 5-11)","11 (Nov 12-18)",
+                     "12 (Nov 19-25)", "13 (Nov 26-Dec 2)", "14 (Dec 3-9)"])
         self.weekNumber.activated.connect(self.weekChosen)
 
         '''making the export button'''
         self.export = QPushButton("EXPORT", self)
         self.export.setGeometry(200,305,175,25)
         self.export.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
-        #self.submit.clicked.connect(self.clickExport)
+        self.export.clicked.connect(self.clickExport)
 
         '''making the redo button'''
         self.redo = QPushButton("START OVER", self)
         self.redo.setGeometry(20,305,175,25)
         self.redo.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
-        #self.submit.clicked.connect(self.clickRedo)
+        self.redo.clicked.connect(self.clickRedo)
 
         '''making the submit button'''
         self.submit = QPushButton("SUBMIT", self)
         self.submit.setGeometry(20,270,355,25)
         self.submit.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.submit.clicked.connect(self.clickSubmit)
-        #355,462
 
         '''table stuff'''
         self.roomSchedule = QTableWidget(self)
@@ -252,21 +253,19 @@ class MainWindow2(QMainWindow):
         self.roomSchedule.setColumnWidth(3,330)
         self.roomSchedule.setColumnWidth(4,330)
 
-        '''dataStruc.Computer_Lab.update_schedule(dataStruc.CMSK_0150, 0, 0, 0, 1)
-        dataStruc.Computer_Lab.update_schedule(dataStruc.ACCT_0202, 0, 1, 0, 2)
-        dataStruc.Computer_Lab.update_schedule(dataStruc.DXDI_0101, 0, 0, 3, 3)
-        #dataStruc.Computer_Lab.print_schedule()'''
-
-        '''all_cohorts = [Cohort("FS_1", 30, 1), Cohort("PCOM_1", 27, 1), Cohort("BA_1", 29, 1)]
-
-        algorithm(all_cohorts, [Computer_Lab, Room_8])
-        dataStruc.Room_8.print_schedule()'''
-        #dataStruc.Computer_Lab.schedule()
-
         '''showing the initial screen'''
         #print(listofRooms)
         self.show()
-
+    
+    def clickExport(self):
+                filename = QFileDialog.getSaveFileName(self, 'Save File', '', ".xls(*.xls)")
+                wbk = xlwt.Workbook()
+                sheet = wbk.add_sheet(str(self.ctext) + "_" + str(self.wtext), cell_overwrite_ok=True)
+                for currentColumn in range(self.roomSchedule.columnCount()):
+                        for currentRow in range(self.roomSchedule.rowCount()):
+                                text = str(self.roomSchedule.item(currentRow, currentColumn).text())
+                                sheet.write(currentRow, currentColumn, text)
+                wbk.save(filename[0])
     
     def roomChosen(self,index):
         self.ctext = self.roomNumber.itemText(index)  # Get the text at index.
@@ -276,6 +275,9 @@ class MainWindow2(QMainWindow):
         self.wtext = self.weekNumber.itemText(index)  # Get the text at index.
         self.weekIndex = self.weekNumber.currentIndex()
         
+    def clickRedo(self):
+        self.close()
+
     def clickSubmit(self):
         #ctext = self.roomNumber.itemText(index)  # Get the text at index.
         #print("Current itemText", ctext)
@@ -284,6 +286,8 @@ class MainWindow2(QMainWindow):
         
         #print("Current room selected", self.ctext)
         #print("Current week selected", self.wtext)
+
+        print("room list", ROOMS)
 
         print("week index: ", self.weekIndex)
         self.roomSchedule.clearContents()
@@ -421,34 +425,56 @@ class MainWindow2(QMainWindow):
         self.roomSchedule.setItem(23, 4, QTableWidgetItem())  
         self.roomSchedule.setItem(24, 4, QTableWidgetItem())  
         self.roomSchedule.setItem(25, 4, QTableWidgetItem())
-        
-        if dataStruc.Room_8.room_number == self.ctext:
-                weeklist = []
-                w = 0
-                for week in dataStruc.Room_8.schedule:
-                        w += 1
-                        d = 0
-                        co = 0
-                        weekdayList = []
-                        for weekday in week:
-                                weekdayList.append(weekday)
-                                co+=1
-                                d += 1
-                        weeklist.append(weekdayList)
-        elif dataStruc.Computer_Lab.room_number == self.ctext:
-                weeklist = []
-                w = 0
-                for week in dataStruc.Computer_Lab.schedule:
-                        w += 1
-                        d = 0
-                        co = 0
-                        weekdayList = []
-                        for weekday in week:
-                                weekdayList.append(weekday)
-                                co+=1
-                                d += 1
-                        weeklist.append(weekdayList)
 
+         
+        print("list of rooms", self.listofRooms)
+        #for i in self.listofRooms:
+              #print(type(i))
+
+        for j in ROOMS:
+                if j.room_number == self.ctext:
+                        weeklist = []
+                        w = 0
+                        for week in j.schedule:
+                                w += 1
+                                d = 0
+                                co = 0
+                                weekdayList = []
+                                for weekday in week:
+                                        weekdayList.append(weekday)
+                                        co+=1
+                                        d += 1
+                                weeklist.append(weekdayList)
+        
+        
+        '''
+        if Room_8.room_number == self.ctext:
+                weeklist = []
+                w = 0
+                for week in Room_8.schedule:
+                        w += 1
+                        d = 0
+                        co = 0
+                        weekdayList = []
+                        for weekday in week:
+                                weekdayList.append(weekday)
+                                co+=1
+                                d += 1
+                        weeklist.append(weekdayList)
+        elif Computer_Lab.room_number == self.ctext:
+                weeklist = []
+                w = 0
+                for week in Computer_Lab.schedule:
+                        w += 1
+                        d = 0
+                        co = 0
+                        weekdayList = []
+                        for weekday in week:
+                                weekdayList.append(weekday)
+                                co+=1
+                                d += 1
+                        weeklist.append(weekdayList)
+        '''
 
         #print(weeklist)
         #print (weeklist[0][0][0]) #gives class name
@@ -460,11 +486,12 @@ class MainWindow2(QMainWindow):
         #labs: 25
         listToUse = []
         counterSlot = 0
+
         #taking a week's schedule and putting it in list to read from
         countDay = 0
         for week2 in weeklist[self.weekIndex-1]:
-              print(week2)
-              print("week# changed", week2)
+              #print(week2)
+              #print("week# changed", week2)
               countDay +=1
               listToUse.append(countDay)
               counterSlot = len(week2)+1
@@ -472,7 +499,7 @@ class MainWindow2(QMainWindow):
                     #print("course", type(course), course)
                     listToUse.append(course)
         
-        print(listToUse)
+        #print(listToUse)
 
         
         '''color randomizer code'''
@@ -491,10 +518,10 @@ class MainWindow2(QMainWindow):
         for course2 in listToUse:
               if (type(course2) == int) :
                     if (course2 == 1):
-                          print("day change", course2, coloumn)
+                          #print("day change", course2, coloumn)
                           pass
                     else:
-                        print("day change", course2, coloumn)
+                        #print("day change", course2, coloumn)
                         coloumn+=1
                         row = 1
                         list3.clear()    
@@ -507,14 +534,14 @@ class MainWindow2(QMainWindow):
                                 list3.append(str(course2))
                                 #setting colors
                                 color = tuple(random.choices(range(256), k=3))
-                                print("color", color)
+                                #print("color", color)
                                 firstNum = color[0]
                                 secondNum = color[1]
                                 thirdNum = color[2]
                                 self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(course2)))
                                 self.roomSchedule.item(row, coloumn).setBackground(QColor(firstNum,secondNum,thirdNum))
                                 row+=1
-                                print(course2)
+                                #print(course2)
                         else:
                                 if (str(course2) in list3):
                                         #printing course
@@ -522,12 +549,12 @@ class MainWindow2(QMainWindow):
                                         self.roomSchedule.item(row, coloumn).setBackground(QColor(firstNum,secondNum,thirdNum))
                                         #incrementing
                                         row+=1
-                                        print(course2)
+                                        #print(course2)
                                 else:
                                         list3.append(str(course2))
                                         #setting colors
                                         color = tuple(random.choices(range(256), k=3))
-                                        print("color", color)
+                                        #print("color", color)
                                         firstNum = color[0]
                                         secondNum = color[1]
                                         thirdNum = color[2]
@@ -536,10 +563,10 @@ class MainWindow2(QMainWindow):
                                         self.roomSchedule.item(row, coloumn).setBackground(QColor(firstNum,secondNum,thirdNum))
                                         #incrementing
                                         row+=1
-                                        print(course2)
-                                        
-                                
+                                        #print(course2)s
 
+        #self.export.clicked.connect(self.clickExport)
+                                                 
         '''
         for week2 in weeklist[self.weekIndex-1]:
              print("count", count)
@@ -640,7 +667,6 @@ class MainWindow2(QMainWindow):
                         row = 1
         
         '''
-
 
 '''Mon: [PCOM_0101, PCOM_0101, PCOM_0101, PCOM_0105, PCOM_0105, PCOM_0105, None, None, None, None, None, None, None, None, None, None, None, None]
         Tue: [PRDV_0640, PRDV_0640, PRDV_0640, PRDV_0652, PRDV_0652, PRDV_0652, PRDV_0653, PRDV_0653, PRDV_0653, PRDV_0642, PRDV_0642, PRDV_0642, None, None, None, None, None, None]
