@@ -567,7 +567,7 @@ class MainWindow(QMainWindow):
         self.data1 = pd.read_excel('test file.xlsx', sheet_name='Sheet2')
         self.room = pd.DataFrame(self.data1, columns=['Room Number', 'Lab (Y/N)','Capacity'])
         self.roomList = self.room.values.tolist()
-        print(self.roomList)
+        #print(self.roomList)
 
         self.globalRoomList = []
         
