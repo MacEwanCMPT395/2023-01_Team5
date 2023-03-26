@@ -157,11 +157,11 @@ class MainWindow(QMainWindow):
         self.upload.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.upload.clicked.connect(self.clicked)
 
-        '''making the submit button'''
+        '''making the edit course button'''
         self.aCourse = QPushButton("Edit Courses", self)
         self.aCourse.setGeometry(280,700,150,25)
         self.aCourse.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
-        #self.aCubmit.clicked.connect(self.clickSubmit)
+        self.aCourse.clicked.connect(self.editCourse)
 
         '''showing the initial screen'''
         self.show()
@@ -583,6 +583,7 @@ class MainWindow(QMainWindow):
         self.show()
         #print ("ughyt")
 
+    '''Warning that rooms entered are not enough'''
     def warning(self, rooms):
         msg = QMessageBox()
         msg.setWindowTitle("Capacity Reached")
@@ -592,6 +593,12 @@ class MainWindow(QMainWindow):
         msg.setText(text)
         msg.setIcon(QMessageBox.Information)
         x = msg.exec_()
+
+
+    '''add/edit courses'''
+    def editCourse(self):
+        self.w = AnotherWindow()
+        self.w.show()
 
     def clickSubmit(self):
         '''this makes it into a list so that can be transferred'''
@@ -657,6 +664,124 @@ class MainWindow(QMainWindow):
         #print("clicked")
         self.close()
         #self.openScheduleBuilder()
+
+class AnotherWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        '''making the schedule builder window'''
+        self.acceptDrops()
+        self.setWindowTitle("Courses")
+        self.setGeometry(0, 0, 1300, 150) # x,y,w,h
+        self.setFixedSize(QSize(1300, 150)) # w,h
+        self.setStyleSheet("background-color: whitesmoke")
+        self.table_widget = MyTableWidget(self)
+        self.show()
+
+class MyTableWidget(QWidget):
+    def __init__(self, parent):
+        super(QWidget, self).__init__(parent)
+        self.layout = QVBoxLayout(self)
+        
+        #submit button
+        self.Submit2 = QPushButton("Submit", self)
+        #self.Submit2.setGeometry(440,300,30,25)
+        self.Submit2.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+
+        # Initialize tab screen
+        self.tabs = QTabWidget()
+        self.tab1 = QWidget()
+        self.tab2 = QWidget()
+        self.tab3 = QWidget()
+        self.tabs.resize(300,200)
+        
+        # Add tabs
+        self.tabs.addTab(self.tab1,"Add Course")
+        self.tabs.addTab(self.tab2,"Edit Course")
+        self.tabs.addTab(self.tab3,"Remove Course")
+
+        # Create first tab
+        self.tab1.layout = QHBoxLayout(self)
+        self.tab1.layout = QHBoxLayout(self)
+        self.Label = QLabel("Choose Term:",self)
+        #self.Label.resize(260,25)
+        self.Label.setFont(QFont('Arial',10))
+        self.Label.setStyleSheet("color: #902a39;")
+        self.Label.setAlignment(QtCore.Qt.AlignRight)
+
+        self.Label1 = QLabel("Enter Course Name:",self)
+        #self.Label1.resize(260,25)
+        self.Label1.setFont(QFont('Arial',10))
+        self.Label1.setStyleSheet("color: #902a39;")
+        self.Label1.setAlignment(QtCore.Qt.AlignRight)
+
+        self.Label2 = QLabel("Enter Hours:",self)
+        #self.Label2.resize(260,25)
+        self.Label2.setFont(QFont('Arial',10))
+        self.Label2.setStyleSheet("color: #902a39;")
+        self.Label2.setAlignment(QtCore.Qt.AlignRight)
+
+        self.Label3 = QLabel("Is it a Lab? (YES/NO)",self)
+        #self.Label3.resize(260,25)
+        self.Label3.setFont(QFont('Arial',10))
+        self.Label3.setStyleSheet("color: #902a39;")
+        self.Label3.setAlignment(QtCore.Qt.AlignRight)
+
+
+        self.listofTerms = ["PCOM_TERM_1", "PCOM_TERM_2", "PCOM_TERM_3", "BCOM_TERM_1", "BCOM_TERM_2",
+                     "BCOM_TERM_3", "FS_TERM_1", "FS_TERM_2", "FS_TERM_3", "DXDI_TERM_1", "DXDI_TERM_2",
+                     "DXDI_TERM_3", "BK_TERM_1", "BK_TERM_2", "BK_TERM_3", "GL_TERM_1", "GL_TERM_2", 
+                     "GL_TERM_3", "BA_TERM_1", "BA_TERM_2", "BA_TERM_3", "PM_TERM_1", "PM_TERM_2",
+                     "PM_TERM_3"]
+        self.termsList = QComboBox(self)
+        self.termsList.move(275,250)
+        self.termsList.resize(190,35)
+        #self.termsList.setStyleSheet("color: #902a39;")
+        '''self.termsList.setStyleSheet("border: 2px solid;"
+                    "border-top-color : #902a39; "
+                     "border-left-color :#902a39;"
+                     "border-right-color :#902a39;"
+                     "border-bottom-color : #902a39")'''
+        for term in self.listofTerms:
+              self.termsList.addItem(term)
+
+        self.addCourseName = QLineEdit(self)
+        self.addCourseName.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        
+        self.addHours = QLineEdit(self)
+        self.addHours.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+
+        self.addLab = QLineEdit(self)
+        self.addLab.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        
+        #adding to tabs
+        self.tab1.layout.addWidget(self.Label)
+        self.tab1.layout.addWidget(self.termsList)
+        self.tab1.layout.addWidget(self.Label1)
+        self.tab1.layout.addWidget(self.addCourseName)
+        self.tab1.layout.addWidget(self.Label2)
+        self.tab1.layout.addWidget(self.addHours)
+        self.tab1.layout.addWidget(self.Label3)
+        self.tab1.layout.addWidget(self.addLab)
+
+        '''Shows things on tab'''
+        self.tab1.setLayout(self.tab1.layout)
+        
+        # Add tabs to widget
+        self.layout.addWidget(self.tabs)
+        self.layout.addWidget(self.Submit2)
+        self.setLayout(self.layout)
 
 if __name__ == "__main__":
     App = QApplication(sys.argv)
