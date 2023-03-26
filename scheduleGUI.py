@@ -31,13 +31,13 @@ class MainWindow2(QMainWindow):
 
         ''' putting the pictures in place'''
         self.label = QLabel(self)
-        self.pixmap = QPixmap("C:\\Users\\ayesh\\Documents\\University\\cmpt 395\\test\\2023-01_Team5-Schedule-System-\\macewan header.png")
+        self.pixmap = QPixmap("macewan header.png")
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.pixmap.width(), self.pixmap.height())
 
         
         self.label1 = QLabel(self)
-        self.pixmap = QPixmap("C:\\Users\\ayesh\\Documents\\University\\cmpt 395\\test\\2023-01_Team5-Schedule-System-\\downpic.jpg")
+        self.pixmap = QPixmap("downpic.jpg")
         self.label1.setPixmap(self.pixmap)
         self.label1.resize(self.pixmap.width(), self.pixmap.height())
         self.label1.move(20,340)
