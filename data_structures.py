@@ -328,15 +328,12 @@ DXDI_TERM_3 = [AVDM_0238, AVDM_0270, DXDI_9901]
 #secondary list to find index in order to edit course list
 DXDIT3 = ["AVDM_0238", "AVDM_0270", "DXDI_9901"]
 
-<<<<<<< HEAD
 '''AVDM_0165 = Course("ACDM_0165", 18, True)
 DXDI_0101 = Course("DXDI_0101", 24, True)
 DXDI_0102 = Course("DXDI_0102", 24, True)
 DXDI_TERM_1 = [AVDM_0165, DXDI_0101, DXDI_0102]
 #secondary list to find index in order to edit course list
 DXDI = ["AVDM0165", "DXDI0101", "DXDI0102"]''' #DUPLICATE?
-=======
->>>>>>> 5e05851b0af4e23b2501883fc913ea7df8209822
 
 # Bookkeeping (BK)
 # Term 1
