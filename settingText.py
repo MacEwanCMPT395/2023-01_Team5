@@ -9,6 +9,7 @@ from algorithm import *
 from cohorts import *
 from request_rooms import *
 import scheduleGUI
+from start_date import *
 
 
 # dictionary to hold cohorts
@@ -34,15 +35,15 @@ def make_cohort(list12):
 def make_room_object(room_list_raw, room_list):
     for room in room_list_raw:
         if room[1] == "Y":
-            room.append(Room(room[0], room[2], True))
+            room_list.append(Room(room[0], room[2], True))
         else:
             room_list.append(Room(room[0], room[2], False))
 
 
 def restart():
     QtCore.QCoreApplication.quit()
-    
-    status = QtCore.QProcess.startDetached(sys.executable, sys.argv) 
+
+    status = QtCore.QProcess.startDetached(sys.executable, sys.argv)
     print (status)
 
 
@@ -52,10 +53,11 @@ def main():
     window = webapp.MainWindow()
     #start the event loop
     App.exec()
-
+    
     #making room list
     globalRoomList = []
     print(globalRoomList)
+
 
     #making cohorts
     make_cohort(window.listText)
@@ -68,20 +70,30 @@ def main():
     for cohort in cohorts.values():
         cohort_list.append(cohort)
 
+    #starts semester starting date window
+    app = QtWidgets.QApplication(sys.argv)
+    w = Start_Date()
+    w.show()
+    app.exec()
+    if len(w.week_number) == 0:
+        return
+
+    block_days(window.globalRoomList, w.start_date)
+
     listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
 
     #second schedule builder window
     App2 = QApplication(sys.argv)
-    window2 = scheduleGUI.MainWindow2(listOfRooms)
+    window2 = scheduleGUI.MainWindow2(listOfRooms, w.week_number)
     #start the event loop
     App2.exec()
 
     window2.redo.clicked.connect(restart())
 
     print("hello")
+    sys.exit(App2.exec_())
 
 
 if __name__ == "__main__":
     main()
-    
 

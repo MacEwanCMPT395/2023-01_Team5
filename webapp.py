@@ -15,6 +15,7 @@ from cohorts import *
 from request_rooms import *
 import settingText as setText
 
+
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
     def openScheduleBuilder(self):
@@ -563,7 +564,7 @@ class MainWindow(QMainWindow):
     def clicked(self):
         #closing scrren so other new screen can open
         self.close()
-        
+
         #code will change here to account for students
         self.data = pd.read_excel('test file.xlsx', sheet_name='Sheet1')
         self.df = pd.DataFrame(self.data, columns=['Numbers'])
@@ -577,7 +578,7 @@ class MainWindow(QMainWindow):
         #print(self.roomList)
 
         self.globalRoomList = []
-        
+
         #showing new screens
         self.UiComponents2()
         self.show()
@@ -592,6 +593,7 @@ class MainWindow(QMainWindow):
         msg.setText(text)
         msg.setIcon(QMessageBox.Information)
         x = msg.exec_()
+
 
     def clickSubmit(self):
         '''this makes it into a list so that can be transferred'''
@@ -651,15 +653,16 @@ class MainWindow(QMainWindow):
 
         settingText.make_room_object(self.roomList,self.globalRoomList)
         settingText.make_cohort(self.listText)
-        rooms = request_room(settingText.cohorts)
+        rooms = request_room(settingText.cohorts, self.globalRoomList)
         if len(rooms) != 0:
             self.warning(rooms)
         #print("clicked")
         self.close()
         #self.openScheduleBuilder()
-
+'''
 if __name__ == "__main__":
     App = QApplication(sys.argv)
     window = MainWindow()
     #start the event loop
     App.exec()
+'''
