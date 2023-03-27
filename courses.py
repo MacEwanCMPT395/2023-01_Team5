@@ -20,6 +20,11 @@ Parameters:
 
         lab: is there a lab component for the lab (Eg. yes or no (string)(will be 
              converted into a boolean))
+            
+        hourPerDay: (string that will be converted to an int) represents how long the lecture 
+                    runs per day 
+                    options: "90 minutes" (converts to 1), "120 minutes" (converts to 2)
+                             "180 minutes" (converts to 3)
 
 Example:
         addCourse(PCOM_TERM_1, "CMSK_0101", 34, "no")
@@ -36,12 +41,70 @@ Example:
 
 
 '''
-def addCourse(list, course_name, hours, lab):
+def addCourse(list, course_name, hours, lab, hoursPerDay):
     #initialize variables
     course  = course_name.upper()
     hours = int(hours)
     exist = False
     lab = lab.upper()
+    
+    #set slot_type variable for our course class object
+    if hoursPerDay == "90 minutes":
+        hoursPerDay = 1
+    elif hoursPerDay == "120 minutes":
+        hoursPerDay = 2
+    elif hoursPerDay == "180 minutes":
+        hoursPerDay = 3
+
+    #set appropriate list to check
+    if list == "PCOM_TERM_1":
+         list = PCOM_TERM_1
+    elif list == "PCOM_TERM_2":
+        list = PCOM_TERM_2
+    elif list == "PCOM_TERM_3":
+        list = PCOM_TERM_3
+    elif list =="BCOM_TERM_1":
+        list = BCOM_TERM_1 
+    elif list =="BCOM_TERM_2":
+        list = BCOM_TERM_2
+    elif list == "BCOM_TERM_3":
+        list = BCOM_TERM_3
+    elif list == "FS_TERM_1":
+        list = FS_TERM_1
+    elif list == "FS_TERM_2":
+        list = FS_TERM_2
+    elif list == "FS_TERM_3":
+        list = FS_TERM_3
+    elif list == "DXDI_TERM_1":
+        list = DXDI_TERM_1 
+    elif list == "DXDI_TERM_2":
+        list = DXDI_TERM_2
+    elif list == "DXDI_TERM_3":
+        list = DXDI_TERM_3
+    elif list == "BK_TERM_1":
+        list = BK_TERM_1
+    elif list == "BK_TERM_2":
+        list = BK_TERM_2 
+    elif list == "BK_TERM_3":
+        list = BK_TERM_3
+    elif list == "GL_TERM_1":
+        list = GL_TERM_1 
+    elif list == "GL_TERM_2":
+        list = GL_TERM_2 
+    elif list == "GL_TERM_3":
+        list = GL_TERM_3
+    elif list == "BA_TERM_1":
+        list = BA_TERM_1
+    elif list == "BA_TERM_2":
+        list = BA_TERM_2 
+    elif list == "BA_TERM_3":
+        list = BA_TERM_3 
+    elif list == "PM_TERM_1":
+        list = PM_TERM_1
+    elif list == "PM_TERM_2":
+        list = PM_TERM_2
+    elif list == "PM_TERM_3":
+        list = PM_TERM_3
 
     #convert lab requirement to boolean
     if lab == "YES":
@@ -55,7 +118,7 @@ def addCourse(list, course_name, hours, lab):
     
     #if course not in list create the object and addit to list
     if exist == False:
-        new_course = Course(course, hours, lab)
+        new_course = Course(course, hours, lab, hoursPerDay)
         list.append(new_course)
 
 
@@ -97,7 +160,55 @@ def removeCourse(list, course_name):
     exist = False
     i = 0
     index = 0
-    
+    #set appropriate list to check
+    if list == "PCOM_TERM_1":
+         list = PCOM_TERM_1
+    elif list == "PCOM_TERM_2":
+        list = PCOM_TERM_2
+    elif list == "PCOM_TERM_3":
+        list = PCOM_TERM_3
+    elif list =="BCOM_TERM_1":
+        list = BCOM_TERM_1 
+    elif list =="BCOM_TERM_2":
+        list = BCOM_TERM_2
+    elif list == "BCOM_TERM_3":
+        list = BCOM_TERM_3
+    elif list == "FS_TERM_1":
+        list = FS_TERM_1
+    elif list == "FS_TERM_2":
+        list = FS_TERM_2
+    elif list == "FS_TERM_3":
+        list = FS_TERM_3
+    elif list == "DXDI_TERM_1":
+        list = DXDI_TERM_1 
+    elif list == "DXDI_TERM_2":
+        list = DXDI_TERM_2
+    elif list == "DXDI_TERM_3":
+        list = DXDI_TERM_3
+    elif list == "BK_TERM_1":
+        list = BK_TERM_1
+    elif list == "BK_TERM_2":
+        list = BK_TERM_2 
+    elif list == "BK_TERM_3":
+        list = BK_TERM_3
+    elif list == "GL_TERM_1":
+        list = GL_TERM_1 
+    elif list == "GL_TERM_2":
+        list = GL_TERM_2 
+    elif list == "GL_TERM_3":
+        list = GL_TERM_3
+    elif list == "BA_TERM_1":
+        list = BA_TERM_1
+    elif list == "BA_TERM_2":
+        list = BA_TERM_2 
+    elif list == "BA_TERM_3":
+        list = BA_TERM_3 
+    elif list == "PM_TERM_1":
+        list = PM_TERM_1
+    elif list == "PM_TERM_2":
+        list = PM_TERM_2
+    elif list == "PM_TERM_3":
+        list = PM_TERM_3
     #check if course exists and grab its index
     for i in range(len(list)):
         if list[i].name == course:
@@ -130,6 +241,11 @@ Parameters:
         
         lab: is there a lab component for the lab (Eg. yes or no (string)(will be 
              converted into a boolean))
+        
+        hourPerDay: (string that will be converted to an int) represents how long the lecture 
+                    runs per day 
+                    options: "90 minutes" (converts to 1), "120 minutes" (converts to 2)
+                             "180 minutes" (converts to 3)
 
 Example:
         editCourse(PCOM_TERM_3, "CMSK_0101", "PCOM_0199", 34, no)
@@ -147,7 +263,7 @@ Example:
                 PCOM_TERM_3 = [..., ..., PCOM_0199]
 
 '''
-def editCourse(list, oldCourse, newCourse, hours, lab):
+def editCourse(list, oldCourse, newCourse, hours, lab, hoursPerDay):
     #initialize variables
     oldCourse = oldCourse.upper()
     newCourse = newCourse.upper()
@@ -156,6 +272,64 @@ def editCourse(list, oldCourse, newCourse, hours, lab):
     exist = False
     i = 0
     index = 0
+
+    #set slot_type variable for our course class object
+    if hoursPerDay == "90 minutes":
+        hoursPerDay = 1
+    elif hoursPerDay == "120 minutes":
+        hoursPerDay = 2
+    elif hoursPerDay == "180 minutes":
+        hoursPerDay = 3
+
+    #set appropriate list to check
+    if list == "PCOM_TERM_1":
+         list = PCOM_TERM_1
+    elif list == "PCOM_TERM_2":
+        list = PCOM_TERM_2
+    elif list == "PCOM_TERM_3":
+        list = PCOM_TERM_3
+    elif list =="BCOM_TERM_1":
+        list = BCOM_TERM_1 
+    elif list =="BCOM_TERM_2":
+        list = BCOM_TERM_2
+    elif list == "BCOM_TERM_3":
+        list = BCOM_TERM_3
+    elif list == "FS_TERM_1":
+        list = FS_TERM_1
+    elif list == "FS_TERM_2":
+        list = FS_TERM_2
+    elif list == "FS_TERM_3":
+        list = FS_TERM_3
+    elif list == "DXDI_TERM_1":
+        list = DXDI_TERM_1 
+    elif list == "DXDI_TERM_2":
+        list = DXDI_TERM_2
+    elif list == "DXDI_TERM_3":
+        list = DXDI_TERM_3
+    elif list == "BK_TERM_1":
+        list = BK_TERM_1
+    elif list == "BK_TERM_2":
+        list = BK_TERM_2 
+    elif list == "BK_TERM_3":
+        list = BK_TERM_3
+    elif list == "GL_TERM_1":
+        list = GL_TERM_1 
+    elif list == "GL_TERM_2":
+        list = GL_TERM_2 
+    elif list == "GL_TERM_3":
+        list = GL_TERM_3
+    elif list == "BA_TERM_1":
+        list = BA_TERM_1
+    elif list == "BA_TERM_2":
+        list = BA_TERM_2 
+    elif list == "BA_TERM_3":
+        list = BA_TERM_3 
+    elif list == "PM_TERM_1":
+        list = PM_TERM_1
+    elif list == "PM_TERM_2":
+        list = PM_TERM_2
+    elif list == "PM_TERM_3":
+        list = PM_TERM_3
 
     #turn lab argument into a boolean
     if lab == "YES":
@@ -174,29 +348,32 @@ def editCourse(list, oldCourse, newCourse, hours, lab):
         list[index].name = newCourse
         list[index].hours = hours
         list[index].requires_lab = lab
-
+        list[index].slot_type = hoursPerDay
 
     
 #Test functions
-'''
+
 def main():
-    addCourse(PCOM_TERM_3,"pcom_0131", 18, "no")
+    addCourse("PCOM_TERM_3","pcom_0131", 18, "no" , "120 minutes")
     print(PCOM_TERM_3)
     print(PCOM_TERM_3[-1].name)
     print(PCOM_TERM_3[-1].hours)
     print(PCOM_TERM_3[-1].requires_lab)
+    print(PCOM_TERM_3[-1].slot_type)
 
-    editCourse(PCOM_TERM_3, "pcom_0131", "cmsk_0199", 28, "yes")
+    editCourse("PCOM_TERM_3", "pcom_0131", "cmsk_0199", 28, "yes", "180 minutes")
 
     print(PCOM_TERM_3[-1].name)
     print(PCOM_TERM_3[-1].hours)
     print(PCOM_TERM_3[-1].requires_lab)
-    removeCourse(PCOM_TERM_3, "pcom_0131")
+    print(PCOM_TERM_3[-1].slot_type)
+
+    removeCourse("PCOM_TERM_3", "pcom_0131")
     print(PCOM_TERM_3)
-    removeCourse(PCOM_TERM_3, "cmsk_0199")
+    removeCourse("PCOM_TERM_3", "cmsk_0199")
     print(PCOM_TERM_3)
-'''
 
 
 
-#main()
+
+main()
