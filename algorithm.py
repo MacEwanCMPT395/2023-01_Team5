@@ -120,7 +120,12 @@ def algorithm(cohorts, rooms):
                     new_room.update_schedule(course, cohort, 0, 1, slot)
                     cohort.update_schedule(course, new_room, 0, 1, slot)
                     lectures.append(new_room)
+                if course.slot_type == 1:
+                    slot += 3
+                else:
+                    slot += course.slot_type * 2
 
+                
     all_rooms = lectures + labs
     return all_rooms
 

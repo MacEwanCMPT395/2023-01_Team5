@@ -59,8 +59,9 @@ class MainWindow2(QMainWindow):
         self.roomNumber.move(190,180)
         self.roomNumber.resize(190,35)
         listofRooms.insert(0, "")
-        print("roomlistshit", self.listofRooms)
-        self.roomNumber.addItems(listofRooms)
+        #print("roomlistshit", self.listofRooms)
+        for room in self.listofRooms:
+              self.roomNumber.addItems([room.__str__()])
         self.roomNumber.activated.connect(self.roomChosen)
 
         '''week combo box'''
@@ -286,7 +287,7 @@ class MainWindow2(QMainWindow):
         #print("Current room selected", self.ctext)
         #print("Current week selected", self.wtext)
 
-        print("room list", ROOMS)
+        #print("room list", ROOMS)
 
         print("week index: ", self.weekIndex)
         self.roomSchedule.clearContents()
@@ -430,20 +431,23 @@ class MainWindow2(QMainWindow):
         #for i in self.listofRooms:
               #print(type(i))
 
-        for j in ROOMS:
-                if j.room_number == self.ctext:
-                        weeklist = []
-                        w = 0
-                        for week in j.schedule:
-                                w += 1
-                                d = 0
-                                co = 0
-                                weekdayList = []
-                                for weekday in week:
-                                        weekdayList.append(weekday)
-                                        co+=1
-                                        d += 1
-                                weeklist.append(weekdayList)
+        for j in self.listofRooms:
+                if (j == ""):
+                      pass
+                else:
+                        if j.room_number == self.ctext:
+                                weeklist = []
+                                w = 0
+                                for week in j.schedule:
+                                        w += 1
+                                        d = 0
+                                        co = 0
+                                        weekdayList = []
+                                        for weekday in week:
+                                                weekdayList.append(weekday)
+                                                co+=1
+                                                d += 1
+                                        weeklist.append(weekdayList)
 
 
         '''
@@ -475,7 +479,7 @@ class MainWindow2(QMainWindow):
                         weeklist.append(weekdayList)
         '''
 
-        #print(weeklist)
+        print(weeklist)
         #print (weeklist[0][0][0]) #gives class name
         #print (weeklist[0][0]) # gives weekday mon, tues wed or thurs
         #print (weeklist[0]) #gives all weekdays in a week
@@ -498,7 +502,7 @@ class MainWindow2(QMainWindow):
                     #print("course", type(course), course)
                     listToUse.append(course)
 
-        #print(listToUse)
+        print(listToUse)
 
 
         '''color randomizer code'''
