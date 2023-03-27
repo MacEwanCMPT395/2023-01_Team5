@@ -165,6 +165,12 @@ class MainWindow(QMainWindow):
         self.aCourse.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.aCourse.clicked.connect(self.editCourse)
 
+        '''making help button'''
+        self.helpButton = QPushButton("?", self)
+        self.helpButton.setGeometry(120,700,150,25)
+        self.helpButton.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.helpButton.clicked.connect(self.helpButt)
+
         '''showing the initial screen'''
         self.show()
 
@@ -596,7 +602,13 @@ class MainWindow(QMainWindow):
         msg.setIcon(QMessageBox.Information)
         x = msg.exec_()
 
-
+    def helpButt(self):
+        dfg = QMessageBox()
+        dfg.setWindowTitle("Help")
+        text = " jgkjjjjjjjjjjjjjjjjjjj"
+        dfg.setText(text)
+        dfg.setIcon(QMessageBox.Information)
+        dfg.exec()
 
     '''add/edit courses'''
     def editCourse(self):
