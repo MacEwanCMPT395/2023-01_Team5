@@ -15,8 +15,6 @@ import random
 import xlwt
 
 
-
-
 # Subclass QMainWindow to customize your application's main window
 class MainWindow2(QMainWindow):
     def __init__(self, listofRooms, week_numbers):
@@ -61,8 +59,8 @@ class MainWindow2(QMainWindow):
         self.roomNumber.move(190,180)
         self.roomNumber.resize(190,35)
         listofRooms.insert(0, "")
-        for room in self.listofRooms:
-              self.roomNumber.addItems([room.__str__()])
+        print("roomlistshit", self.listofRooms)
+        self.roomNumber.addItems(listofRooms)
         self.roomNumber.activated.connect(self.roomChosen)
 
         '''week combo box'''

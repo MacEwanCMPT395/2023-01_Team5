@@ -111,7 +111,7 @@ class Cohort:
         # Placement of Course within Room schedule.
         for w in range(0, sessions):
             for t in range(slot, course_duration):
-                if self.schedule[week + w][day][slot + t] is None:
+                if w + week < WEEKS and self.schedule[week + w][day][slot + t] is None:
                     continue
                 else:
                     return False
@@ -241,7 +241,7 @@ class Room:
         # Placement of Course within Room schedule.
         for w in range(0, sessions):
             for t in range(slot, course_duration):
-                if self.schedule[week + w][day][slot + t] is None:
+                if w + week < WEEKS and self.schedule[week + w][day][slot + t] is None:
                     continue
                 else:
                     return False
