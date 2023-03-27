@@ -70,6 +70,8 @@ def main():
     for cohort in cohorts.values():
         cohort_list.append(cohort)
 
+    print(cohort_list)
+
 
     #starts semester starting date window
     app = QtWidgets.QApplication(sys.argv)
