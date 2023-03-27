@@ -676,8 +676,8 @@ class AnotherWindow(QWidget):
         '''making the courses window'''
         self.acceptDrops()
         self.setWindowTitle("Courses")
-        self.setGeometry(0, 0, 900, 600) # x,y,w,h
-        self.setFixedSize(QSize(900, 600)) # w,h
+        self.setGeometry(0, 0, 1200, 600) # x,y,w,h
+        self.setFixedSize(QSize(1200, 600)) # w,h
         self.setStyleSheet("background-color: whitesmoke")
         self.table_widget = MyTableWidget(self)
         self.show()
@@ -757,6 +757,20 @@ class MyTableWidget(QWidget):
                      "border-right-color :black;"
                      "border-bottom-color : black")
 
+        self.Label17 = QLabel("Enter Length of Course:")
+        self.Label17.setFont(QFont('Arial',10))
+        self.Label17.setStyleSheet("color: #902a39;")
+        self.Label17.setAlignment(QtCore.Qt.AlignRight)
+        self.lengthCourse = ["90 minutes", "120 minutes", "180 minutes"]
+        self.lengthList = QComboBox()
+        self.lengthList.move(275,250)
+        self.lengthList.resize(190,35)
+        #self.termsList.setStyleSheet("color: #902a39;")
+        for length in self.lengthCourse:
+              self.lengthList.addItem(length)
+        self.lengthList.activated.connect(self.lengthChosen)
+
+
         self.layout.addWidget(self.Label, 0,0)
         self.layout.addWidget(self.Label1, 1,0)
         self.layout.addWidget(self.termsList,1,1)
@@ -766,7 +780,9 @@ class MyTableWidget(QWidget):
         self.layout.addWidget(self.addHours, 2,1)
         self.layout.addWidget(self.Label13, 2,2)
         self.layout.addWidget(self.addLab, 2,3)
-        self.layout.addWidget(self.Submit2, 3,3)
+        self.layout.addWidget(self.Label17, 3,0)
+        self.layout.addWidget(self.lengthList, 3,1)
+        self.layout.addWidget(self.Submit2, 4,3)
 
         #Edit courses
         self.Submit3 = QPushButton("Edit Course")
@@ -844,18 +860,33 @@ class MyTableWidget(QWidget):
                      "border-right-color :black;"
                      "border-bottom-color : black")
         
-        self.layout.addWidget(self.Label2, 4,0)
-        self.layout.addWidget(self.Label21, 5,0)
-        self.layout.addWidget(self.termsList2,5,1)
-        self.layout.addWidget(self.Label22, 6,0)
-        self.layout.addWidget(self.oldCourseName, 6,1)
-        self.layout.addWidget(self.Label25, 6,2)
-        self.layout.addWidget(self.newCourseName, 6,3)
-        self.layout.addWidget(self.Label23, 7,0)
-        self.layout.addWidget(self.addHours2, 7,1)
-        self.layout.addWidget(self.Label24, 7,2)
-        self.layout.addWidget(self.addLab2, 7,3)
-        self.layout.addWidget(self.Submit3, 8,3)
+        self.Label27 = QLabel("Enter Length of Course:")
+        self.Label27.setFont(QFont('Arial',10))
+        self.Label27.setStyleSheet("color: #902a39;")
+        self.Label27.setAlignment(QtCore.Qt.AlignRight)
+        self.lengthCourse1 = ["90 minutes", "120 minutes", "180 minutes"]
+        self.lengthList1 = QComboBox()
+        self.lengthList1.move(275,250)
+        self.lengthList1.resize(190,35)
+        #self.termsList.setStyleSheet("color: #902a39;")
+        for length1 in self.lengthCourse1:
+              self.lengthList1.addItem(length1)
+        self.lengthList1.activated.connect(self.lengthChosen1)
+        
+        self.layout.addWidget(self.Label2, 5,0)
+        self.layout.addWidget(self.Label21, 6,0)
+        self.layout.addWidget(self.termsList2,6,1)
+        self.layout.addWidget(self.Label22, 7,0)
+        self.layout.addWidget(self.oldCourseName, 7,1)
+        self.layout.addWidget(self.Label25, 7,2)
+        self.layout.addWidget(self.newCourseName, 7,3)
+        self.layout.addWidget(self.Label23, 8,0)
+        self.layout.addWidget(self.addHours2, 8,1)
+        self.layout.addWidget(self.Label24, 8,2)
+        self.layout.addWidget(self.addLab2, 8,3)
+        self.layout.addWidget(self.Label27, 9,0)
+        self.layout.addWidget(self.lengthList1, 9,1)
+        self.layout.addWidget(self.Submit3, 10,3)
 
         #Edit courses
         self.Submit4 = QPushButton("Remove Course")
@@ -893,12 +924,12 @@ class MyTableWidget(QWidget):
                      "border-bottom-color : black")
         self.termsList3.activated.connect(self.programChosen2)
         
-        self.layout.addWidget(self.Label3, 9,0)
-        self.layout.addWidget(self.Label31, 10,0)
-        self.layout.addWidget(self.termsList3,10,1)
-        self.layout.addWidget(self.Label32, 10,2)
-        self.layout.addWidget(self.remCourseName, 10,3)
-        self.layout.addWidget(self.Submit4,11,3)
+        self.layout.addWidget(self.Label3, 11,0)
+        self.layout.addWidget(self.Label31, 12,0)
+        self.layout.addWidget(self.termsList3,12,1)
+        self.layout.addWidget(self.Label32, 12,2)
+        self.layout.addWidget(self.remCourseName, 12,3)
+        self.layout.addWidget(self.Submit4,13,3)
 
     def programChosen(self,index):
         self.ptext = self.termsList.itemText(index)  # Get the text at index.
@@ -908,15 +939,21 @@ class MyTableWidget(QWidget):
 
     def programChosen2(self,index):
         self.ptext2 = self.termsList3.itemText(index)  # Get the text at index.
-        
+    
+    def lengthChosen(self, index):
+        self.len = self.lengthList.itemText(index)
+
+    def lengthChosen1(self, index):
+        self.len1 = self.lengthList1.itemText(index)
+
     def addCourse(self):
-        addCourse(self.ptext, self.addCourseName.text, int(self.addHours.text), self.addLab.text)
+        addCourse(self.ptext, self.addCourseName.text, int(self.addHours.text), self.addLab.text,self.len.text)
         dlg1 = QDialog(self)
         dlg1.setWindowTitle("Course Added")
         dlg1.exec()
 
     def editCourse(self):
-        editCourse(self.ptext1,self.oldCourseName.text,self.newCourseName.text, int(self.addHours2.text), self.addLab2.text)
+        editCourse(self.ptext1,self.oldCourseName.text,self.newCourseName.text, int(self.addHours2.text), self.addLab2.text,self.len1.text)
         dlg = QDialog(self)
         dlg.setWindowTitle("Course edited")
         dlg.exec()
