@@ -676,8 +676,8 @@ class AnotherWindow(QWidget):
         '''making the courses window'''
         self.acceptDrops()
         self.setWindowTitle("Courses")
-        self.setGeometry(0, 0, 900, 600) # x,y,w,h
-        self.setFixedSize(QSize(900, 600)) # w,h
+        self.setGeometry(0, 0, 1300, 600) # x,y,w,h
+        self.setFixedSize(QSize(1300, 600)) # w,h
         self.setStyleSheet("background-color: whitesmoke")
         self.table_widget = MyTableWidget(self)
         self.show()
