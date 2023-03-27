@@ -8,10 +8,22 @@ from request_rooms import *
 from os import *
 import settingText
 import pandas as pd
+from scheduleGUI import MainWindow2
+import data_structures as dataStruct
+from algorithm import *
+from cohorts import *
+from request_rooms import *
+import settingText as setText
+from courses import *
 
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
+    def openScheduleBuilder(self):
+        self.window = QMainWindow()
+        self.ui = MainWindow2(self.window)
+        self.window.show()
+
     def __init__(self):
         super().__init__()
 
@@ -24,13 +36,14 @@ class MainWindow(QMainWindow):
 
         ''' putting the pictures in place'''
         self.label = QLabel(self)
-        self.pixmap = QPixmap(getcwd() + "\\macewan1.png")
+        #self.pixmap = QPixmap(getcwd() + "\\macewan1.png")
+        self.pixmap = QPixmap("macewan1.png")
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.pixmap.width(), self.pixmap.height())
         self.label.move(797,0)
 
         self.label2 = QLabel(self)
-        self.pixmap = QPixmap(getcwd() + "\\macewanlogo.png")
+        self.pixmap = QPixmap("macewanlogo.png")
         self.label2.setPixmap(self.pixmap)
         self.label2.resize(self.pixmap.width(), self.pixmap.height())
         self.label2.move(10,0)
@@ -145,6 +158,18 @@ class MainWindow(QMainWindow):
         self.upload.setGeometry(440,700,150,25)
         self.upload.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.upload.clicked.connect(self.clicked)
+
+        '''making the edit course button'''
+        self.aCourse = QPushButton("Edit Courses", self)
+        self.aCourse.setGeometry(280,700,150,25)
+        self.aCourse.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.aCourse.clicked.connect(self.editCourse)
+
+        '''making help button'''
+        self.helpButton = QPushButton("?", self)
+        self.helpButton.setGeometry(120,700,150,25)
+        self.helpButton.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.helpButton.clicked.connect(self.helpButt)
 
         '''showing the initial screen'''
         self.show()
@@ -540,16 +565,33 @@ class MainWindow(QMainWindow):
                      "border-right-color :#902a39;"
                      "border-bottom-color : #902a39")
 
+
+
+    '''this uplaods excel file and extracts what is needed from it'''
     def clicked(self):
-        '''this uplaods excel file and extracts what is needed from it'''
+        #closing scrren so other new screen can open
         self.close()
-        self.data = pd.read_excel('C:\\Users\\ayesh\\Documents\\University\\cmpt 395\\test\\2023-01_Team5-Schedule-System-\\test file.xlsx')
+
+        #code will change here to account for students
+        self.data = pd.read_excel('test file.xlsx', sheet_name='Sheet1')
         self.df = pd.DataFrame(self.data, columns=['Numbers'])
         self.dfList = self.df.values.tolist()
+
+
+        #code for room list
+        self.data1 = pd.read_excel('test file.xlsx', sheet_name='Sheet2')
+        self.room = pd.DataFrame(self.data1, columns=['Room Number', 'Lab (Y/N)','Capacity'])
+        self.roomList = self.room.values.tolist()
+        #print(self.roomList)
+
+        self.globalRoomList = []
+
+        #showing new screens
         self.UiComponents2()
         self.show()
         #print ("ughyt")
 
+    '''Warning that rooms entered are not enough'''
     def warning(self, rooms):
         msg = QMessageBox()
         msg.setWindowTitle("Capacity Reached")
@@ -559,6 +601,20 @@ class MainWindow(QMainWindow):
         msg.setText(text)
         msg.setIcon(QMessageBox.Information)
         x = msg.exec_()
+
+    def helpButt(self):
+        dfg = QMessageBox()
+        dfg.setWindowTitle("Help")
+        text = " jgkjjjjjjjjjjjjjjjjjjj"
+        dfg.setText(text)
+        dfg.setIcon(QMessageBox.Information)
+        dfg.exec()
+
+    '''add/edit courses'''
+    def editCourse(self):
+        self.w = AnotherWindow()
+        self.w.show()
+
 
     def clickSubmit(self):
         '''this makes it into a list so that can be transferred'''
@@ -614,17 +670,317 @@ class MainWindow(QMainWindow):
         self.listText.append(int(text22))
         self.listText.append(int(text23))
         self.listText.append(int(text24))
-        print ("numbers of students per program",self.listText)
+        #print ("numbers of students per program",self.listText)
 
+        settingText.make_room_object(self.roomList,self.globalRoomList)
         settingText.make_cohort(self.listText)
-        rooms = request_room(settingText.cohorts)
+        rooms = request_room(settingText.cohorts, self.globalRoomList)
         if len(rooms) != 0:
             self.warning(rooms)
         #print("clicked")
         self.close()
+        #self.openScheduleBuilder()
 
+
+class AnotherWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        '''making the courses window'''
+        self.acceptDrops()
+        self.setWindowTitle("Courses")
+        self.setGeometry(0, 0, 1200, 600) # x,y,w,h
+        self.setFixedSize(QSize(1200, 600)) # w,h
+        self.setStyleSheet("background-color: whitesmoke")
+        self.table_widget = MyTableWidget(self)
+        self.show()
+
+class MyTableWidget(QWidget):
+    def __init__(self, parent):
+        super(QWidget, self).__init__(parent)
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
+        
+        #add courses
+        self.Submit2 = QPushButton("Add Course")
+        self.Submit2.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.Submit2.clicked.connect(self.addCourse)
+        
+        self.Label = QLabel("ADD COURSES")
+        self.Label.setFont(QFont('Arial',12))
+        self.Label.setStyleSheet("color: #902a39; font-weight: bold")
+        self.Label.setAlignment(QtCore.Qt.AlignRight)
+
+        #choose term
+        self.Label1 = QLabel("Choose Term:")
+        self.Label1.setFont(QFont('Arial',10))
+        self.Label1.setStyleSheet("color: #902a39;")
+        self.Label1.setAlignment(QtCore.Qt.AlignRight)
+
+        self.listofTerms = ["PCOM_TERM_1", "PCOM_TERM_2", "PCOM_TERM_3", "BCOM_TERM_1", "BCOM_TERM_2",
+                     "BCOM_TERM_3", "FS_TERM_1", "FS_TERM_2", "FS_TERM_3", "DXDI_TERM_1", "DXDI_TERM_2",
+                     "DXDI_TERM_3", "BK_TERM_1", "BK_TERM_2", "BK_TERM_3", "GL_TERM_1", "GL_TERM_2", 
+                     "GL_TERM_3", "BA_TERM_1", "BA_TERM_2", "BA_TERM_3", "PM_TERM_1", "PM_TERM_2",
+                     "PM_TERM_3"]
+        self.termsList = QComboBox()
+        self.termsList.move(275,250)
+        self.termsList.resize(190,35)
+        #self.termsList.setStyleSheet("color: #902a39;")
+        for term in self.listofTerms:
+              self.termsList.addItem(term)
+        self.termsList.activated.connect(self.programChosen)
+        
+        #enter Course Name to add
+        self.Label11 = QLabel("Enter Course Name(eg. CMSK_0101):")
+        self.Label1.resize(260,25)
+        self.Label11.setFont(QFont('Arial',10))
+        self.Label11.setStyleSheet("color: #902a39;")
+        self.Label11.setAlignment(QtCore.Qt.AlignRight)
+        self.addCourseName = QLineEdit()
+        self.addCourseName.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+
+        #enter hours
+        self.Label12 = QLabel("Enter Hours:")
+        self.Label12.setFont(QFont('Arial',10))
+        self.Label12.setStyleSheet("color: #902a39;")
+        self.Label12.setAlignment(QtCore.Qt.AlignRight)
+
+
+        self.addHours = QLineEdit()
+        self.addHours.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        
+        #enter lab
+        self.Label13 = QLabel("Is it a Lab? (YES/NO)")
+        self.Label13.setFont(QFont('Arial',10))
+        self.Label13.setStyleSheet("color: #902a39;")
+        self.Label13.setAlignment(QtCore.Qt.AlignRight)
+
+        self.addLab = QLineEdit()
+        self.addLab.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+
+        self.Label17 = QLabel("Enter Length of Course:")
+        self.Label17.setFont(QFont('Arial',10))
+        self.Label17.setStyleSheet("color: #902a39;")
+        self.Label17.setAlignment(QtCore.Qt.AlignRight)
+        self.lengthCourse = ["90 minutes", "120 minutes", "180 minutes"]
+        self.lengthList = QComboBox()
+        self.lengthList.move(275,250)
+        self.lengthList.resize(190,35)
+        #self.termsList.setStyleSheet("color: #902a39;")
+        for length in self.lengthCourse:
+              self.lengthList.addItem(length)
+        self.lengthList.activated.connect(self.lengthChosen)
+
+
+        self.layout.addWidget(self.Label, 0,0)
+        self.layout.addWidget(self.Label1, 1,0)
+        self.layout.addWidget(self.termsList,1,1)
+        self.layout.addWidget(self.Label11, 1,2)
+        self.layout.addWidget(self.addCourseName, 1,3)
+        self.layout.addWidget(self.Label12, 2,0)
+        self.layout.addWidget(self.addHours, 2,1)
+        self.layout.addWidget(self.Label13, 2,2)
+        self.layout.addWidget(self.addLab, 2,3)
+        self.layout.addWidget(self.Label17, 3,0)
+        self.layout.addWidget(self.lengthList, 3,1)
+        self.layout.addWidget(self.Submit2, 4,3)
+
+        #Edit courses
+        self.Submit3 = QPushButton("Edit Course")
+        self.Submit3.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.Submit3.clicked.connect(self.editCourse)
+        
+        self.Label2 = QLabel("EDIT COURSES")
+        self.Label2.setFont(QFont('Arial',12))
+        self.Label2.setStyleSheet("color: #902a39; font-weight: bold")
+        self.Label2.setAlignment(QtCore.Qt.AlignRight)
+
+        #choose term
+        self.Label21 = QLabel("Choose Term:")
+        self.Label21.setFont(QFont('Arial',10))
+        self.Label21.setStyleSheet("color: #902a39;")
+        self.Label21.setAlignment(QtCore.Qt.AlignRight)
+
+        self.termsList2 = QComboBox()
+        self.termsList2.move(275,250)
+        self.termsList2.resize(190,35)
+        for term in self.listofTerms:
+              self.termsList2.addItem(term)
+        
+        #enter old course
+        self.Label22 = QLabel("Enter Old Course Name(eg. CMSK_0101):")
+        self.Label22.resize(260,25)
+        self.Label22.setFont(QFont('Arial',10))
+        self.Label22.setStyleSheet("color: #902a39;")
+        self.Label22.setAlignment(QtCore.Qt.AlignRight)
+        self.oldCourseName = QLineEdit()
+        self.oldCourseName.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        self.termsList2.activated.connect(self.programChosen1)
+
+        #enter old course
+        self.Label25 = QLabel("Enter New Course Name(eg. CMSK_0101):")
+        self.Label25.resize(260,25)
+        self.Label25.setFont(QFont('Arial',10))
+        self.Label25.setStyleSheet("color: #902a39;")
+        self.Label25.setAlignment(QtCore.Qt.AlignRight)
+        self.newCourseName = QLineEdit()
+        self.newCourseName.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        
+        #enter hours
+        self.Label23 = QLabel("Enter Hours:")
+        self.Label23.setFont(QFont('Arial',10))
+        self.Label23.setStyleSheet("color: #902a39;")
+        self.Label23.setAlignment(QtCore.Qt.AlignRight)
+
+
+        self.addHours2 = QLineEdit()
+        self.addHours2.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        
+        #enter lab
+        self.Label24 = QLabel("Is it a Lab? (YES/NO)")
+        self.Label24.setFont(QFont('Arial',10))
+        self.Label24.setStyleSheet("color: #902a39;")
+        self.Label24.setAlignment(QtCore.Qt.AlignRight)
+
+        self.addLab2 = QLineEdit()
+        self.addLab2.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        
+        self.Label27 = QLabel("Enter Length of Course:")
+        self.Label27.setFont(QFont('Arial',10))
+        self.Label27.setStyleSheet("color: #902a39;")
+        self.Label27.setAlignment(QtCore.Qt.AlignRight)
+        self.lengthCourse1 = ["90 minutes", "120 minutes", "180 minutes"]
+        self.lengthList1 = QComboBox()
+        self.lengthList1.move(275,250)
+        self.lengthList1.resize(190,35)
+        #self.termsList.setStyleSheet("color: #902a39;")
+        for length1 in self.lengthCourse1:
+              self.lengthList1.addItem(length1)
+        self.lengthList1.activated.connect(self.lengthChosen1)
+        
+        self.layout.addWidget(self.Label2, 5,0)
+        self.layout.addWidget(self.Label21, 6,0)
+        self.layout.addWidget(self.termsList2,6,1)
+        self.layout.addWidget(self.Label22, 7,0)
+        self.layout.addWidget(self.oldCourseName, 7,1)
+        self.layout.addWidget(self.Label25, 7,2)
+        self.layout.addWidget(self.newCourseName, 7,3)
+        self.layout.addWidget(self.Label23, 8,0)
+        self.layout.addWidget(self.addHours2, 8,1)
+        self.layout.addWidget(self.Label24, 8,2)
+        self.layout.addWidget(self.addLab2, 8,3)
+        self.layout.addWidget(self.Label27, 9,0)
+        self.layout.addWidget(self.lengthList1, 9,1)
+        self.layout.addWidget(self.Submit3, 10,3)
+
+        #Edit courses
+        self.Submit4 = QPushButton("Remove Course")
+        self.Submit4.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.Submit4.clicked.connect(self.removeCourse)
+        
+        self.Label3 = QLabel("REMOVE COURSES")
+        self.Label3.setFont(QFont('Arial',12))
+        self.Label3.setStyleSheet("color: #902a39; font-weight: bold")
+        self.Label3.setAlignment(QtCore.Qt.AlignRight)
+
+        #choose term
+        self.Label31 = QLabel("Choose Term:")
+        self.Label31.setFont(QFont('Arial',10))
+        self.Label31.setStyleSheet("color: #902a39;")
+        self.Label31.setAlignment(QtCore.Qt.AlignRight)
+
+        self.termsList3 = QComboBox()
+        self.termsList3.move(275,250)
+        self.termsList3.resize(190,35)
+        for term in self.listofTerms:
+              self.termsList3.addItem(term)
+        
+        #enter old course
+        self.Label32 = QLabel("Enter Course Name(eg. CMSK_0101):")
+        self.Label32.resize(260,25)
+        self.Label32.setFont(QFont('Arial',10))
+        self.Label32.setStyleSheet("color: #902a39;")
+        self.Label32.setAlignment(QtCore.Qt.AlignRight)
+        self.remCourseName = QLineEdit()
+        self.remCourseName.setStyleSheet("border: 2px solid;"
+                    "border-top-color : black; "
+                     "border-left-color :black;"
+                     "border-right-color :black;"
+                     "border-bottom-color : black")
+        self.termsList3.activated.connect(self.programChosen2)
+        
+        self.layout.addWidget(self.Label3, 11,0)
+        self.layout.addWidget(self.Label31, 12,0)
+        self.layout.addWidget(self.termsList3,12,1)
+        self.layout.addWidget(self.Label32, 12,2)
+        self.layout.addWidget(self.remCourseName, 12,3)
+        self.layout.addWidget(self.Submit4,13,3)
+
+    def programChosen(self,index):
+        self.ptext = self.termsList.itemText(index)  # Get the text at index.
+    
+    def programChosen1(self,index):
+        self.ptext1 = self.termsList2.itemText(index)  # Get the text at index.
+
+    def programChosen2(self,index):
+        self.ptext2 = self.termsList3.itemText(index)  # Get the text at index.
+    
+    def lengthChosen(self, index):
+        self.len = self.lengthList.itemText(index)
+
+    def lengthChosen1(self, index):
+        self.len1 = self.lengthList1.itemText(index)
+
+    def addCourse(self):
+        addCourse(self.ptext, self.addCourseName.text, int(self.addHours.text), self.addLab.text,self.len.text)
+        dlg1 = QDialog(self)
+        dlg1.setWindowTitle("Course Added")
+        dlg1.exec()
+
+    def editCourse(self):
+        editCourse(self.ptext1,self.oldCourseName.text,self.newCourseName.text, int(self.addHours2.text), self.addLab2.text,self.len1.text)
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Course edited")
+        dlg.exec()
+
+    def removeCourse(self):
+        removeCourse(self.ptext2,self.remCourseName.text)
+        dlg2 = QDialog(self)
+        dlg2.setWindowTitle("Course Removed")
+        dlg2.exec()
+        
+
+'''
 if __name__ == "__main__":
     App = QApplication(sys.argv)
     window = MainWindow()
     #start the event loop
     App.exec()
+'''

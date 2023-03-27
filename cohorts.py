@@ -38,7 +38,7 @@ data = [term1, term2, term3]
 # Core Course list of BCOM and PCOM 
 PCOMsize = {"term1":  }
 #mock class for cohort to test
-class Cohort:
+'''class Cohort:
     def __init__(self, program, term, cohort, size):
         self.program = program
         self.term = term
@@ -46,7 +46,7 @@ class Cohort:
         self.size = size
     
     def __str__(self):
-        return f'{self.program}0{self.term}0{self.cohort}'
+        return f'{self.program}0{self.term}0{self.cohort}'''
 
 def coreCourseCohorts(size):
 
@@ -63,7 +63,7 @@ def numCohorts(total):
 
     '''
     # 1 cohort case 
-    if total <= 20:  
+    if total <= 30:  
         return 1
     
     # start with 2 cohorts
@@ -91,9 +91,9 @@ def studentsPerCohort(total, n):
         listCohort.append(studentsInCohort) 
     return listCohort
 
-def createCohortObj(program, term, cohort, size):
+'''def createCohortObj(program, term, cohort, size):
     cohort = Cohort (program, term, cohort, size)
-    return cohort
+    return cohort'''
 
 
 def main():

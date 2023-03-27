@@ -2,7 +2,6 @@ import math
 
 
 # Setting Global Variables.
-
 WEEKDAY_NAMES = ["Mon", "Tue", "Wed", "Thu"]
 WEEKS = 15
 DAYS = 4
@@ -11,8 +10,18 @@ DAYS = 4
 class Cohort:
     def __init__(self, name, size, term):
 
+        # Program name and term number.
         self.name = name
         self.term = term
+
+        # 3 Dimensional List, containing entire Cohort schedule. Filled with Nones.
+        self.schedule = []
+        for week in range(0, WEEKS):
+            self.schedule.append([])
+            for weekday in range(0, DAYS):
+                self.schedule[week].append([])
+                for timeslot in range(0, 25):
+                    self.schedule[week][weekday].append(None)
 
         # Finding Courses for Cohort.
         self.courses = set_courses(term, name[0:2])
@@ -29,6 +38,89 @@ class Cohort:
     def __str__(self):
         return self.name
 
+    def update_schedule(self, course, room, week, day, slot):
+        # Conversions for certain cases.
+        if course.slot_type == 1:
+            slot_type = 1.5
+            weekly_hours = 3
+        elif course.slot_type == 2:
+            slot_type = 2
+            weekly_hours = 4
+        elif course.slot_type == 3:
+            slot_type = 3
+            weekly_hours = 6
+        else:
+            raise Exception("Invalid slot Type.")
+
+        # This integer represents how long each Course session is, in half hours.
+        course_duration = int(slot_type * 2)
+        # This number represents how many sessions each course runs for.
+        sessions = math.ceil(course.hours / weekly_hours)
+
+        # Placement of Course within Room schedule.
+        for w in range(0, sessions):
+            for t in range(slot, course_duration):
+                if self.schedule[week + w][day][slot + t] is None:
+                    self.schedule[week + w][day][slot + t] = f"{course.name} / {room.room_number}"
+                else:
+                    raise Exception("Schedule Conflict.")
+        # If the course runs twice a week, which only occurs with slot_type 1, update the schedule.
+        for w in range(0, sessions):
+            for t in range(slot, course_duration):
+                if self.schedule[week + w][day + 2][slot + t] is None:
+                    self.schedule[week + w][day + 2][slot + t] = f"{course.name} / {room.room_number}"
+                else:
+                    raise Exception("Schedule Conflict.")
+
+    def print_schedule(self):
+        # Displays Room Schedule, in an ideal format.
+        w = 0
+        print(self)
+        for week in self.schedule:
+            print(f"Week {w + 1}:")
+            w += 1
+            d = 0
+            for weekday in week:
+                print(f"\t{WEEKDAY_NAMES[d]}: ", end='')
+                print(weekday)
+                d += 1
+
+    def scan(self, course, week, day, slot):
+        # Conversions for certain cases.
+        if course.slot_type == 1:
+            slot_type = 1.5
+            weekly_hours = 3
+        elif course.slot_type == 2:
+            slot_type = 2
+            weekly_hours = 4
+        elif course.slot_type == 3:
+            slot_type = 3
+            weekly_hours = 6
+        else:
+            raise Exception("Invalid slot Type.")
+
+        # This integer represents how long each Course session is, in half hours.
+        course_duration = int(slot_type * 2)
+        # This number represents how many sessions each course runs for.
+        sessions = math.ceil(course.hours / weekly_hours)
+
+        # Placement of Course within Room schedule.
+        for w in range(0, sessions):
+            for t in range(slot, course_duration):
+                if w + week < WEEKS and self.schedule[week + w][day][slot + t] is None:
+                    continue
+                else:
+                    return False
+
+        # If the course runs twice a week update the schedule.
+        if course.slot_type == 1 or course.slot_type == 2:
+            for w in range(0, sessions):
+                for t in range(slot, course_duration):
+                    if self.schedule[week + w][day + 2][slot + t] is None:
+                        continue
+                    else:
+                        return False
+        return True
 
 class Room:
     def __init__(self, room_number, capacity, is_lab):
@@ -46,9 +138,9 @@ class Room:
 
         # Labs and Lecture Rooms have different times they are open. Reflect this with the amount of timeslots.
         if is_lab:
-            slots = 25
+            spaces = 25
         else:
-            slots = 18
+            spaces = 18
 
         # 3 Dimensional List, containing entire Term schedule. Filled with Nones.
         self.schedule = []
@@ -56,7 +148,7 @@ class Room:
             self.schedule.append([])
             for weekday in range(0, DAYS):
                 self.schedule[week].append([])
-                for timeslot in range(0, slots):
+                for timeslot in range(0, spaces):
                     self.schedule[week][weekday].append(None)
         '''
         Visual Representation
@@ -88,7 +180,7 @@ class Room:
                 print(weekday)
                 d += 1
 
-    def update_schedule(self, course, week, day, slot):
+    def update_schedule(self, course, cohort, week, day, slot):
         # Conversions for certain cases.
         if course.slot_type == 1:
             slot_type = 1.5
@@ -109,28 +201,56 @@ class Room:
 
         # Placement of Course within Room schedule.
         for w in range(0, sessions):
-            for t in range(0, course_duration):
+            for t in range(slot, course_duration):
                 if self.schedule[week + w][day][slot + t] is None:
-                    self.schedule[week + w][day][slot + t] = course
+                    self.schedule[week + w][day][slot + t] = f"{course.name} / {cohort.name}"
                 else:
                     raise Exception("Schedule Conflict.")
+
         # If the course runs twice a week, which only occurs with slot_type 1, update the schedule.
         for w in range(0, sessions):
-            for t in range(0, course_duration):
+            for t in range(slot, course_duration):
                 if self.schedule[week + w][day + 2][slot + t] is None:
-                    self.schedule[week + w][day + 2][slot + t] = course
+                    self.schedule[week + w][day + 2][slot + t] = f"{course.name} / {cohort.name}"
                 else:
                     raise Exception("Schedule Conflict.")
-"""
-    def check_space(self):
-        for week in self.schedule:
-            for weekday in week:
-                for slot in weekday:
-"""
 
+    def scan(self, course, week, day, slot):
+        # Conversions for certain cases.
+        if course.slot_type == 1:
+            slot_type = 1.5
+            weekly_hours = 3
+        elif course.slot_type == 2:
+            slot_type = 2
+            weekly_hours = 4
+        elif course.slot_type == 3:
+            slot_type = 3
+            weekly_hours = 6
+        else:
+            raise Exception("Invalid slot Type.")
 
+        # This integer represents how long each Course session is, in half hours.
+        course_duration = int(slot_type * 2)
+        # This number represents how many sessions each course runs for.
+        sessions = math.ceil(course.hours / weekly_hours)
 
+        # Placement of Course within Room schedule.
+        for w in range(0, sessions):
+            for t in range(slot, course_duration):
+                if w + week < WEEKS and self.schedule[week + w][day][slot + t] is None:
+                    continue
+                else:
+                    return False
 
+        # If the course runs twice a week update the schedule.
+        if course.slot_type == 1 or course.slot_type == 2:
+            for w in range(0, sessions):
+                for t in range(slot, course_duration):
+                    if self.schedule[week + w][day + 2][slot + t] is None:
+                        continue
+                    else:
+                        return False
+        return True
 
 class Course:
     def __init__(self, name, hours, requires_lab, slot_type):
@@ -145,8 +265,6 @@ class Course:
         self.requires_lab = requires_lab
 
         self.slot_type = slot_type
-
-        # Priority? Organization? Other Requirements?
 
     def __repr__(self):
         return self.name
@@ -375,9 +493,11 @@ Room_7 = Room("11-430", 30, False)
 Room_8 = Room("11-320", 30, False)
 Computer_Lab = Room("11-532", 30, True)
 ROOMS = [Room_1, Room_2, Room_3, Room_4, Room_5, Room_6, Room_7, Room_8, Computer_Lab]
-
+"""
 if __name__ == "__main__":
     Computer_Lab.update_schedule(CMSK_0150, 0, 0, 0)
     Computer_Lab.update_schedule(ACCT_0202, 0, 1, 0)
     Computer_Lab.update_schedule(DXDI_0101, 0, 0, 4)
     Computer_Lab.print_schedule()
+"""
+
