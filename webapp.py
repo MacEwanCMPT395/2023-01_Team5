@@ -35,13 +35,14 @@ class MainWindow(QMainWindow):
 
         ''' putting the pictures in place'''
         self.label = QLabel(self)
-        self.pixmap = QPixmap(getcwd() + "\\macewan1.png")
+        #self.pixmap = QPixmap(getcwd() + "\\macewan1.png")
+        self.pixmap = QPixmap("macewan1.png")
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.pixmap.width(), self.pixmap.height())
         self.label.move(797,0)
 
         self.label2 = QLabel(self)
-        self.pixmap = QPixmap(getcwd() + "\\macewanlogo.png")
+        self.pixmap = QPixmap("macewanlogo.png")
         self.label2.setPixmap(self.pixmap)
         self.label2.resize(self.pixmap.width(), self.pixmap.height())
         self.label2.move(10,0)

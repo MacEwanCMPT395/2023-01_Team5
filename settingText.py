@@ -53,12 +53,10 @@ def main():
     window = webapp.MainWindow()
     #start the event loop
     App.exec()
-
-    print(window.globalRoomList)
-    #globalRoomList = []
-    #make_room_object(window.roomList, globalRoomList)
-
-    #print(globalRoomList)
+    
+    #making room list
+    globalRoomList = []
+    print(globalRoomList)
 
 
     #making cohorts
@@ -66,14 +64,11 @@ def main():
 
     #print(cohorts.keys()) #printing out cohorts made
     #print(cohorts.values())
+    
     #making list of cohorts
     cohort_list = []
     for cohort in cohorts.values():
         cohort_list.append(cohort)
-    #print("cohort list",cohort_list)
-
-    #list of rooms
-    #print ("rooms list", ROOMS)
 
     #starts semester starting date window
     app = QtWidgets.QApplication(sys.argv)
@@ -86,10 +81,7 @@ def main():
     block_days(window.globalRoomList, w.start_date)
 
     listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
-    #print("list of rooms scheduled", listOfRooms)
 
-    #Room_8.print_schedule()
-    #Computer_Lab.print_schedule()
     #second schedule builder window
     App2 = QApplication(sys.argv)
     window2 = scheduleGUI.MainWindow2(listOfRooms, w.week_number)
@@ -103,44 +95,5 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()
-    '''
-    #first schedule builder window
-    App = QApplication(sys.argv)
-    window = webapp.MainWindow()
-    #start the event loop
-    App.exec()
 
-    #globalRoomList = []
-    #make_room_object(window.roomList, globalRoomList)
-
-    #for i in globalRoomList:
-        #print(i)
-
-    #making cohorts
-    make_cohort(window.listText)
-
-    #print(cohorts.keys()) #printing out cohorts made
-    #print(cohorts.values())
-    #making list of cohorts
-    cohort_list = []
-    for cohort in cohorts.values():
-        cohort_list.append(cohort)
-    #print("cohort list",cohort_list)
-
-    #list of rooms
-    #print ("rooms list", ROOMS)
-
-    listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
-    #print("list of rooms scheduled", listOfRooms)
-
-    #Room_8.print_schedule()
-    #Computer_Lab.print_schedule()
-
-    #second schedule builder window
-    App2 = QApplication(sys.argv)
-    window2 = scheduleGUI.MainWindow2(listOfRooms)
-    #start the event loop
-    App2.exec()
-    print("hello")'''
