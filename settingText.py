@@ -55,8 +55,8 @@ def main():
     App.exec()
     
     #making room list
-    globalRoomList = []
-    print(globalRoomList)
+    #globalRoomList = []
+    #print(globalRoomList)
 
 
     #making cohorts
@@ -81,8 +81,7 @@ def main():
 
     block_days(window.globalRoomList, w.start_date)
 
-    listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
-
+    listOfRooms = algorithm(cohort_list, window.globalRoomList)
 
     #second schedule builder window
     App2 = QApplication(sys.argv)
@@ -90,7 +89,7 @@ def main():
     #start the event loop
     App2.exec()
 
-    window2.redo.clicked.connect(restart())
+    #window2.redo.clicked.connect(restart())
 
     print("hello")
     sys.exit(App2.exec_())

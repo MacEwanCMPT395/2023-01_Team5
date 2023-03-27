@@ -106,20 +106,20 @@ def algorithm(cohorts, rooms):
                                     break
                             week += 1
 
-                if not found:
-                    if course.requires_lab:
-                        new_room = Room("Extra lab", cohort.room_size, True)
-                    else:
-                        new_room = Room("Extra lecture", cohort.room_size, False)
+            if not found:
+                if course.requires_lab:
+                    new_room = Room("Extra lab", cohort.room_size, True)
+                else:
+                    new_room = Room("Extra lecture", cohort.room_size, False)
 
-                    if course in GENERAL:
-                        new_room.update_schedule(course, cohort, week, 0, slot)
-                        cohort.update_schedule(course, new_room, week, 0, slot)
-                    else:
-                        new_room.update_schedule(course, cohort, week, 1, slot)
-                        cohort.update_schedule(course, new_room, week, 1, slot)
-
-                    available_rooms.append(new_room)
+                if course in GENERAL:
+                    new_room.update_schedule(course, cohort, 0, 0, slot)
+                    cohort.update_schedule(course, new_room, 0, 0, slot)
+                    labs.append(new_room)
+                else:
+                    new_room.update_schedule(course, cohort, 0, 1, slot)
+                    cohort.update_schedule(course, new_room, 0, 1, slot)
+                    lectures.append(new_room)
 
     all_rooms = lectures + labs
     return all_rooms
