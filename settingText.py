@@ -70,6 +70,7 @@ def main():
     for cohort in cohorts.values():
         cohort_list.append(cohort)
 
+
     #starts semester starting date window
     app = QtWidgets.QApplication(sys.argv)
     w = Start_Date()
@@ -81,6 +82,7 @@ def main():
     block_days(window.globalRoomList, w.start_date)
 
     listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
+
 
     #second schedule builder window
     App2 = QApplication(sys.argv)

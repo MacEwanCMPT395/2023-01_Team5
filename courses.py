@@ -77,7 +77,7 @@ Parameters:
         
 
 Example:
-        removeCourse(PCOM, "CMSK_0101")
+        removeCourse(PCOM_TERM_1, "CMSK_0101")
 
         Result:
             CMSK_0101 (course object will be created)
