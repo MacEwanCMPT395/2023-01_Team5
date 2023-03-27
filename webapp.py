@@ -911,12 +911,22 @@ class MyTableWidget(QWidget):
         
     def addCourse(self):
         addCourse(self.ptext, self.addCourseName.text, int(self.addHours.text), self.addLab.text)
+        dlg1 = QDialog(self)
+        dlg1.setWindowTitle("Course Added")
+        dlg1.exec()
 
     def editCourse(self):
         editCourse(self.ptext1,self.oldCourseName.text,self.newCourseName.text, int(self.addHours2.text), self.addLab2.text)
-    
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Course edited")
+        dlg.exec()
+
     def removeCourse(self):
         removeCourse(self.ptext2,self.remCourseName.text)
+        dlg2 = QDialog(self)
+        dlg2.setWindowTitle("Course Removed")
+        dlg2.exec()
+        
 
 '''
 if __name__ == "__main__":
