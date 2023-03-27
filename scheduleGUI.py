@@ -15,13 +15,15 @@ import random
 import xlwt
 
 
+
+
 # Subclass QMainWindow to customize your application's main window
 class MainWindow2(QMainWindow):
-    def __init__(self, listofRooms):
+    def __init__(self, listofRooms, week_numbers):
         super().__init__()
 
         self.listofRooms = listofRooms
-
+        self.start_date = week_numbers
         '''making the schedule builder window'''
         self.acceptDrops()
         self.setWindowTitle("Schedule Builder")
@@ -35,7 +37,7 @@ class MainWindow2(QMainWindow):
         self.label.setPixmap(self.pixmap)
         self.label.resize(self.pixmap.width(), self.pixmap.height())
 
-        
+
         self.label1 = QLabel(self)
         self.pixmap = QPixmap("C:\\Users\\ayesh\\Documents\\University\\cmpt 395\\test\\2023-01_Team5-Schedule-System-\\downpic.jpg")
         self.label1.setPixmap(self.pixmap)
@@ -58,6 +60,7 @@ class MainWindow2(QMainWindow):
         self.roomNumber = QComboBox(self)
         self.roomNumber.move(190,180)
         self.roomNumber.resize(190,35)
+        listofRooms.insert(0, "")
         for room in self.listofRooms:
               self.roomNumber.addItems([room.__str__()])
         self.roomNumber.activated.connect(self.roomChosen)
@@ -71,9 +74,7 @@ class MainWindow2(QMainWindow):
         self.weekNumber = QComboBox(self)
         self.weekNumber.move(190,220)
         self.weekNumber.resize(190,35)
-        self.weekNumber.addItems(["", "1 (Sept 4-10)", "2 (Sept 11-17)", "3 (Sept 18-24)", "4 (Sept 25-Oct 1)", "5 (Oct 2-8)", 
-                    "6 (Oct 9-15)", "7 (Oct 16-22)", "8 (Oct 23-28)", "9 (Oct 29-Nov 4)", "10 (Nov 5-11)","11 (Nov 12-18)",
-                     "12 (Nov 19-25)", "13 (Nov 26-Dec 2)", "14 (Dec 3-9)"])
+        self.weekNumber.addItems(week_numbers)
         self.weekNumber.activated.connect(self.weekChosen)
 
         '''making the export button'''
@@ -99,149 +100,149 @@ class MainWindow2(QMainWindow):
         self.roomSchedule.move(400,150)
         self.roomSchedule.resize(1475,657)
         self.roomSchedule.setStyleSheet("border: 2px solid black; font-weight: bold")
-        #self.roomSchedule.setAlignment(QtCore.Qt.AlignCenter) 
+        #self.roomSchedule.setAlignment(QtCore.Qt.AlignCenter)
 
-        # Giving the count for the Row   
-        self.roomSchedule.setRowCount(26)  
-    
-        # Giving the count for the Column  
-        self.roomSchedule.setColumnCount(5)  
-    
+        # Giving the count for the Row
+        self.roomSchedule.setRowCount(26)
+
+        # Giving the count for the Column
+        self.roomSchedule.setColumnCount(5)
+
         #initializing the coloumns and rows
         self.roomSchedule.clearContents()
-        self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))  
-        self.roomSchedule.setItem(1, 0, QTableWidgetItem("8:00 AM"))  
-        self.roomSchedule.setItem(2, 0, QTableWidgetItem("8:30 AM"))  
-        self.roomSchedule.setItem(3, 0, QTableWidgetItem("9:00 AM"))  
-        self.roomSchedule.setItem(4, 0, QTableWidgetItem("9:30 AM"))  
-        self.roomSchedule.setItem(5, 0, QTableWidgetItem("10:30 AM"))  
-        self.roomSchedule.setItem(6, 0, QTableWidgetItem("11:00 AM"))  
+        self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))
+        self.roomSchedule.setItem(1, 0, QTableWidgetItem("8:00 AM"))
+        self.roomSchedule.setItem(2, 0, QTableWidgetItem("8:30 AM"))
+        self.roomSchedule.setItem(3, 0, QTableWidgetItem("9:00 AM"))
+        self.roomSchedule.setItem(4, 0, QTableWidgetItem("9:30 AM"))
+        self.roomSchedule.setItem(5, 0, QTableWidgetItem("10:30 AM"))
+        self.roomSchedule.setItem(6, 0, QTableWidgetItem("11:00 AM"))
         self.roomSchedule.setItem(7, 0, QTableWidgetItem("11:30 AM"))
-        self.roomSchedule.setItem(8, 0, QTableWidgetItem("12:00 PM"))  
-        self.roomSchedule.setItem(9, 0, QTableWidgetItem("12:30 PM"))  
-        self.roomSchedule.setItem(10, 0, QTableWidgetItem("1:00 PM"))  
-        self.roomSchedule.setItem(11, 0, QTableWidgetItem("1:30 PM"))  
-        self.roomSchedule.setItem(12, 0, QTableWidgetItem("2:00 PM"))  
-        self.roomSchedule.setItem(13, 0, QTableWidgetItem("2:30 PM"))  
-        self.roomSchedule.setItem(14, 0, QTableWidgetItem("3:00 PM"))   
-        self.roomSchedule.setItem(15, 0, QTableWidgetItem("3:30 PM"))  
-        self.roomSchedule.setItem(16, 0, QTableWidgetItem("4:00 PM"))  
-        self.roomSchedule.setItem(17, 0, QTableWidgetItem("4:30 PM"))  
-        self.roomSchedule.setItem(18, 0, QTableWidgetItem("5:00 PM")) 
-        self.roomSchedule.setItem(19, 0, QTableWidgetItem("5:30 PM"))  
-        self.roomSchedule.setItem(20, 0, QTableWidgetItem("6:00 PM"))   
-        self.roomSchedule.setItem(21, 0, QTableWidgetItem("6:30 PM"))  
-        self.roomSchedule.setItem(22, 0, QTableWidgetItem("7:00 PM"))  
-        self.roomSchedule.setItem(23, 0, QTableWidgetItem("7:30 PM"))  
+        self.roomSchedule.setItem(8, 0, QTableWidgetItem("12:00 PM"))
+        self.roomSchedule.setItem(9, 0, QTableWidgetItem("12:30 PM"))
+        self.roomSchedule.setItem(10, 0, QTableWidgetItem("1:00 PM"))
+        self.roomSchedule.setItem(11, 0, QTableWidgetItem("1:30 PM"))
+        self.roomSchedule.setItem(12, 0, QTableWidgetItem("2:00 PM"))
+        self.roomSchedule.setItem(13, 0, QTableWidgetItem("2:30 PM"))
+        self.roomSchedule.setItem(14, 0, QTableWidgetItem("3:00 PM"))
+        self.roomSchedule.setItem(15, 0, QTableWidgetItem("3:30 PM"))
+        self.roomSchedule.setItem(16, 0, QTableWidgetItem("4:00 PM"))
+        self.roomSchedule.setItem(17, 0, QTableWidgetItem("4:30 PM"))
+        self.roomSchedule.setItem(18, 0, QTableWidgetItem("5:00 PM"))
+        self.roomSchedule.setItem(19, 0, QTableWidgetItem("5:30 PM"))
+        self.roomSchedule.setItem(20, 0, QTableWidgetItem("6:00 PM"))
+        self.roomSchedule.setItem(21, 0, QTableWidgetItem("6:30 PM"))
+        self.roomSchedule.setItem(22, 0, QTableWidgetItem("7:00 PM"))
+        self.roomSchedule.setItem(23, 0, QTableWidgetItem("7:30 PM"))
         self.roomSchedule.setItem(24, 0, QTableWidgetItem("8:00 PM"))
         self.roomSchedule.setItem(25, 0, QTableWidgetItem("8:30 PM"))
 
         self.roomSchedule.setItem(0, 1, QTableWidgetItem("Monday"))
-        self.roomSchedule.setItem(1, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 1, QTableWidgetItem())
         self.roomSchedule.setItem(7, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(10, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(10, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 1, QTableWidgetItem())
         self.roomSchedule.setItem(14, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 1, QTableWidgetItem())
         self.roomSchedule.setItem(18, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(19, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(20, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(19, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(20, 1, QTableWidgetItem())
         self.roomSchedule.setItem(21, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(22, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(23, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(24, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(22, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(23, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(24, 1, QTableWidgetItem())
         self.roomSchedule.setItem(25, 1, QTableWidgetItem())
-        
+
         self.roomSchedule.setItem(0, 2, QTableWidgetItem("Tuesday"))
-        self.roomSchedule.setItem(1, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 2, QTableWidgetItem())
         self.roomSchedule.setItem(7, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(10, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(10, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 2, QTableWidgetItem())
         self.roomSchedule.setItem(14, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 2, QTableWidgetItem())
         self.roomSchedule.setItem(18, 2, QTableWidgetItem())
         self.roomSchedule.setItem(19, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(20, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(21, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(22, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(20, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(21, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(22, 2, QTableWidgetItem())
         self.roomSchedule.setItem(23, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(24, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(24, 2, QTableWidgetItem())
         self.roomSchedule.setItem(25, 2, QTableWidgetItem())
 
         self.roomSchedule.setItem(0, 3, QTableWidgetItem("Wednesday"))
-        self.roomSchedule.setItem(1, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 3, QTableWidgetItem())
         self.roomSchedule.setItem(7, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(10,3, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(10,3, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 3, QTableWidgetItem())
         self.roomSchedule.setItem(14, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 3, QTableWidgetItem())
         self.roomSchedule.setItem(18, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(19, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(20, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(19, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(20, 3, QTableWidgetItem())
         self.roomSchedule.setItem(21, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(22, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(23, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(24, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(22, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(23, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(24, 3, QTableWidgetItem())
         self.roomSchedule.setItem(25, 3, QTableWidgetItem())
 
         self.roomSchedule.setItem(0, 4, QTableWidgetItem("Thursday"))
-        self.roomSchedule.setItem(1, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 4, QTableWidgetItem())
         self.roomSchedule.setItem(7, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(10,4, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(10,4, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 4, QTableWidgetItem())
         self.roomSchedule.setItem(14, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 4, QTableWidgetItem())
         self.roomSchedule.setItem(18, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(19, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(20, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(19, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(20, 4, QTableWidgetItem())
         self.roomSchedule.setItem(21, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(22, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(23, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(24, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(22, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(23, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(24, 4, QTableWidgetItem())
         self.roomSchedule.setItem(25, 4, QTableWidgetItem())
 
         #making the coloumns,rows, tables look pretty
@@ -256,7 +257,7 @@ class MainWindow2(QMainWindow):
         '''showing the initial screen'''
         #print(listofRooms)
         self.show()
-    
+
     def clickExport(self):
                 filename = QFileDialog.getSaveFileName(self, 'Save File', '', ".xls(*.xls)")
                 wbk = xlwt.Workbook()
@@ -266,24 +267,24 @@ class MainWindow2(QMainWindow):
                                 text = str(self.roomSchedule.item(currentRow, currentColumn).text())
                                 sheet.write(currentRow, currentColumn, text)
                 wbk.save(filename[0])
-    
+
     def roomChosen(self,index):
         self.ctext = self.roomNumber.itemText(index)  # Get the text at index.
         self.roomIndex = self.roomNumber.currentIndex()
-        
+
     def weekChosen(self,index):
         self.wtext = self.weekNumber.itemText(index)  # Get the text at index.
         self.weekIndex = self.weekNumber.currentIndex()
-        
+
     def clickRedo(self):
         self.close()
 
     def clickSubmit(self):
         #ctext = self.roomNumber.itemText(index)  # Get the text at index.
         #print("Current itemText", ctext)
-        fallDict = {1:"(Sept 4-10)", 2: "(Sept 11-17)", 3: "(Sept 18-24)", 4: "(Sept 25-Oct 1)", 5: "(Oct 2-8)", 
+        fallDict = {1:"(Sept 4-10)", 2: "(Sept 11-17)", 3: "(Sept 18-24)", 4: "(Sept 25-Oct 1)", 5: "(Oct 2-8)",
                     6: "(Oct 9-15)", 7: "(Oct 16-22)", 8: "(Oct 23-2)"}
-        
+
         #print("Current room selected", self.ctext)
         #print("Current week selected", self.wtext)
 
@@ -291,142 +292,142 @@ class MainWindow2(QMainWindow):
 
         print("week index: ", self.weekIndex)
         self.roomSchedule.clearContents()
-        self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))  
-        self.roomSchedule.setItem(1, 0, QTableWidgetItem("8:00 AM"))  
-        self.roomSchedule.setItem(2, 0, QTableWidgetItem("8:30 AM"))  
-        self.roomSchedule.setItem(3, 0, QTableWidgetItem("9:00 AM"))  
-        self.roomSchedule.setItem(4, 0, QTableWidgetItem("9:30 AM"))  
-        self.roomSchedule.setItem(5, 0, QTableWidgetItem("10:30 AM"))  
-        self.roomSchedule.setItem(6, 0, QTableWidgetItem("11:00 AM"))  
+        self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))
+        self.roomSchedule.setItem(1, 0, QTableWidgetItem("8:00 AM"))
+        self.roomSchedule.setItem(2, 0, QTableWidgetItem("8:30 AM"))
+        self.roomSchedule.setItem(3, 0, QTableWidgetItem("9:00 AM"))
+        self.roomSchedule.setItem(4, 0, QTableWidgetItem("9:30 AM"))
+        self.roomSchedule.setItem(5, 0, QTableWidgetItem("10:30 AM"))
+        self.roomSchedule.setItem(6, 0, QTableWidgetItem("11:00 AM"))
         self.roomSchedule.setItem(7, 0, QTableWidgetItem("11:30 AM"))
-        self.roomSchedule.setItem(8, 0, QTableWidgetItem("12:00 PM"))  
-        self.roomSchedule.setItem(9, 0, QTableWidgetItem("12:30 PM"))  
-        self.roomSchedule.setItem(10, 0, QTableWidgetItem("1:00 PM"))  
-        self.roomSchedule.setItem(11, 0, QTableWidgetItem("1:30 PM"))  
-        self.roomSchedule.setItem(12, 0, QTableWidgetItem("2:00 PM"))  
-        self.roomSchedule.setItem(13, 0, QTableWidgetItem("2:30 PM"))  
-        self.roomSchedule.setItem(14, 0, QTableWidgetItem("3:00 PM"))   
-        self.roomSchedule.setItem(15, 0, QTableWidgetItem("3:30 PM"))  
-        self.roomSchedule.setItem(16, 0, QTableWidgetItem("4:00 PM"))  
-        self.roomSchedule.setItem(17, 0, QTableWidgetItem("4:30 PM"))  
-        self.roomSchedule.setItem(18, 0, QTableWidgetItem("5:00 PM")) 
-        self.roomSchedule.setItem(19, 0, QTableWidgetItem("5:30 PM"))  
-        self.roomSchedule.setItem(20, 0, QTableWidgetItem("6:00 PM"))   
-        self.roomSchedule.setItem(21, 0, QTableWidgetItem("6:30 PM"))  
-        self.roomSchedule.setItem(22, 0, QTableWidgetItem("7:00 PM"))  
-        self.roomSchedule.setItem(23, 0, QTableWidgetItem("7:30 PM"))  
+        self.roomSchedule.setItem(8, 0, QTableWidgetItem("12:00 PM"))
+        self.roomSchedule.setItem(9, 0, QTableWidgetItem("12:30 PM"))
+        self.roomSchedule.setItem(10, 0, QTableWidgetItem("1:00 PM"))
+        self.roomSchedule.setItem(11, 0, QTableWidgetItem("1:30 PM"))
+        self.roomSchedule.setItem(12, 0, QTableWidgetItem("2:00 PM"))
+        self.roomSchedule.setItem(13, 0, QTableWidgetItem("2:30 PM"))
+        self.roomSchedule.setItem(14, 0, QTableWidgetItem("3:00 PM"))
+        self.roomSchedule.setItem(15, 0, QTableWidgetItem("3:30 PM"))
+        self.roomSchedule.setItem(16, 0, QTableWidgetItem("4:00 PM"))
+        self.roomSchedule.setItem(17, 0, QTableWidgetItem("4:30 PM"))
+        self.roomSchedule.setItem(18, 0, QTableWidgetItem("5:00 PM"))
+        self.roomSchedule.setItem(19, 0, QTableWidgetItem("5:30 PM"))
+        self.roomSchedule.setItem(20, 0, QTableWidgetItem("6:00 PM"))
+        self.roomSchedule.setItem(21, 0, QTableWidgetItem("6:30 PM"))
+        self.roomSchedule.setItem(22, 0, QTableWidgetItem("7:00 PM"))
+        self.roomSchedule.setItem(23, 0, QTableWidgetItem("7:30 PM"))
         self.roomSchedule.setItem(24, 0, QTableWidgetItem("8:00 PM"))
         self.roomSchedule.setItem(25, 0, QTableWidgetItem("8:30 PM"))
 
         self.roomSchedule.setItem(0, 1, QTableWidgetItem("Monday"))
-        self.roomSchedule.setItem(1, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 1, QTableWidgetItem())
         self.roomSchedule.setItem(7, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(10, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(10, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 1, QTableWidgetItem())
         self.roomSchedule.setItem(14, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 1, QTableWidgetItem())
         self.roomSchedule.setItem(18, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(19, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(20, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(19, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(20, 1, QTableWidgetItem())
         self.roomSchedule.setItem(21, 1, QTableWidgetItem())
-        self.roomSchedule.setItem(22, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(23, 1, QTableWidgetItem())  
-        self.roomSchedule.setItem(24, 1, QTableWidgetItem())  
+        self.roomSchedule.setItem(22, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(23, 1, QTableWidgetItem())
+        self.roomSchedule.setItem(24, 1, QTableWidgetItem())
         self.roomSchedule.setItem(25, 1, QTableWidgetItem())
-        
+
         self.roomSchedule.setItem(0, 2, QTableWidgetItem("Tuesday"))
-        self.roomSchedule.setItem(1, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 2, QTableWidgetItem())
         self.roomSchedule.setItem(7, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(10, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(10, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 2, QTableWidgetItem())
         self.roomSchedule.setItem(14, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 2, QTableWidgetItem())
         self.roomSchedule.setItem(18, 2, QTableWidgetItem())
         self.roomSchedule.setItem(19, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(20, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(21, 2, QTableWidgetItem())  
-        self.roomSchedule.setItem(22, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(20, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(21, 2, QTableWidgetItem())
+        self.roomSchedule.setItem(22, 2, QTableWidgetItem())
         self.roomSchedule.setItem(23, 2, QTableWidgetItem())
-        self.roomSchedule.setItem(24, 2, QTableWidgetItem())  
+        self.roomSchedule.setItem(24, 2, QTableWidgetItem())
         self.roomSchedule.setItem(25, 2, QTableWidgetItem())
 
         self.roomSchedule.setItem(0, 3, QTableWidgetItem("Wednesday"))
-        self.roomSchedule.setItem(1, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 3, QTableWidgetItem())
         self.roomSchedule.setItem(7, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(10,3, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(10,3, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 3, QTableWidgetItem())
         self.roomSchedule.setItem(14, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 3, QTableWidgetItem())
         self.roomSchedule.setItem(18, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(19, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(20, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(19, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(20, 3, QTableWidgetItem())
         self.roomSchedule.setItem(21, 3, QTableWidgetItem())
-        self.roomSchedule.setItem(22, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(23, 3, QTableWidgetItem())  
-        self.roomSchedule.setItem(24, 3, QTableWidgetItem())  
+        self.roomSchedule.setItem(22, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(23, 3, QTableWidgetItem())
+        self.roomSchedule.setItem(24, 3, QTableWidgetItem())
         self.roomSchedule.setItem(25, 3, QTableWidgetItem())
 
         self.roomSchedule.setItem(0, 4, QTableWidgetItem("Thursday"))
-        self.roomSchedule.setItem(1, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(2, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(3, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(4, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(5, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(6, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(1, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(2, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(3, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(4, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(5, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(6, 4, QTableWidgetItem())
         self.roomSchedule.setItem(7, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(8, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(9, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(10,4, QTableWidgetItem())  
-        self.roomSchedule.setItem(11, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(12, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(13, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(8, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(9, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(10,4, QTableWidgetItem())
+        self.roomSchedule.setItem(11, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(12, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(13, 4, QTableWidgetItem())
         self.roomSchedule.setItem(14, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(15, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(16, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(17, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(15, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(16, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(17, 4, QTableWidgetItem())
         self.roomSchedule.setItem(18, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(19, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(20, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(19, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(20, 4, QTableWidgetItem())
         self.roomSchedule.setItem(21, 4, QTableWidgetItem())
-        self.roomSchedule.setItem(22, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(23, 4, QTableWidgetItem())  
-        self.roomSchedule.setItem(24, 4, QTableWidgetItem())  
+        self.roomSchedule.setItem(22, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(23, 4, QTableWidgetItem())
+        self.roomSchedule.setItem(24, 4, QTableWidgetItem())
         self.roomSchedule.setItem(25, 4, QTableWidgetItem())
 
-         
+
         print("list of rooms", self.listofRooms)
         #for i in self.listofRooms:
               #print(type(i))
@@ -445,8 +446,8 @@ class MainWindow2(QMainWindow):
                                         co+=1
                                         d += 1
                                 weeklist.append(weekdayList)
-        
-        
+
+
         '''
         if Room_8.room_number == self.ctext:
                 weeklist = []
@@ -498,10 +499,10 @@ class MainWindow2(QMainWindow):
               for course in week2:
                     #print("course", type(course), course)
                     listToUse.append(course)
-        
+
         #print(listToUse)
 
-        
+
         '''color randomizer code'''
         #color = tuple(random.choices(range(256), k=3))
         #print("color", color)
@@ -524,8 +525,8 @@ class MainWindow2(QMainWindow):
                         #print("day change", course2, coloumn)
                         coloumn+=1
                         row = 1
-                        list3.clear()    
-                    
+                        list3.clear()
+
               else:
                     if (str(course2) == "None"):
                           row+=1
@@ -566,7 +567,7 @@ class MainWindow2(QMainWindow):
                                         #print(course2)s
 
         #self.export.clicked.connect(self.clickExport)
-                                                 
+
         '''
         for week2 in weeklist[self.weekIndex-1]:
              print("count", count)
@@ -578,7 +579,7 @@ class MainWindow2(QMainWindow):
                 row = 1
                 countTimes = len(week2)+1
                 print("length",len(week2)+1)
-                
+
                 for day in week2:
                         if (counter == countTimes-1):
                                 #print("nextday")
@@ -592,7 +593,7 @@ class MainWindow2(QMainWindow):
                         if len(list3) == 0:
                               if (str(day) == "None"):
                                     pass
-                              else: 
+                              else:
                                 list3.append(str(day))
                                 self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
                         else:
@@ -605,13 +606,13 @@ class MainWindow2(QMainWindow):
                                       else:
                                         self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
                                         colorChoice+=1
-                        
+
                         if (str(day) == "None"):
                                 row += 1
                                 counter+=1
                                 #print(row,coloumn)
                                 pass
-                        else:   
+                        else:
                                 if str(day) in list2:
                                      self.roomSchedule.item(row, coloumn).setBackground(QColor(colorList[colorChoice]))
                                      list2.append(str(day))
@@ -622,10 +623,10 @@ class MainWindow2(QMainWindow):
                                 else:
                                       self.roomSchedule.setItem(row,coloumn, QTableWidgetItem(str(day)))
                                       if class1 in list2:
-                                            list2.pop()  
+                                            list2.pop()
                                       list2.append(str(day))
                                       row += 1
-                                      counter+=1                 
+                                      counter+=1
         '''
         '''
         for week2 in weeklist[self.weekIndex-1]:
@@ -658,20 +659,22 @@ class MainWindow2(QMainWindow):
                                 class1 = nextClass
                                 nextClass = str(day2)
                                 #print("now", nextClass)
-                                checkClass = True                                     
+                                checkClass = True
                 #print ("hell",week2)
                 if coloumn == 2:
                         break
                 else:
                         coloumn +=1
                         row = 1
-        
+
         '''
 
 '''Mon: [PCOM_0101, PCOM_0101, PCOM_0101, PCOM_0105, PCOM_0105, PCOM_0105, None, None, None, None, None, None, None, None, None, None, None, None]
         Tue: [PRDV_0640, PRDV_0640, PRDV_0640, PRDV_0652, PRDV_0652, PRDV_0652, PRDV_0653, PRDV_0653, PRDV_0653, PRDV_0642, PRDV_0642, PRDV_0642, None, None, None, None, None, None]
         Wed: [PCOM_0101, PCOM_0101, PCOM_0101, PCOM_0105, PCOM_0105, PCOM_0105, None, None, None, None, None, None, None, None, None, None, None, None]
         Thu: [PRDV_0640, PRDV_0640, PRDV_0640, PRDV_0652, PRDV_0652, PRDV_0652, PRDV_0653, PRDV_0653, PRDV_0653, PRDV_0642, PRDV_0642, PRDV_0642, None, None, None, None, None, None]'''
+
+'''
 if __name__ == "__main__":
     #first schedule builder window
     App = QApplication(sys.argv)
@@ -684,5 +687,4 @@ if __name__ == "__main__":
     #start the event loop
     App.exec()
     print("hello")
-
- 
+'''
