@@ -34,6 +34,9 @@ term2 = {"BA": 63, "PM" : 73, "GL" : 18, "FS" : 13}
 term3 = {"BA": 74, "PM" : 102, "GL" : 41, "FS" : 18}
 
 data = [term1, term2, term3]
+
+# Core Course list of BCOM and PCOM 
+PCOMsize = {"term1":  }
 #mock class for cohort to test
 class Cohort:
     def __init__(self, program, term, cohort, size):
@@ -45,6 +48,9 @@ class Cohort:
     def __str__(self):
         return f'{self.program}0{self.term}0{self.cohort}'
 
+def coreCourseCohorts(size):
+
+    
 def numCohorts(total):
     '''
     Purpose: 
@@ -90,7 +96,7 @@ def createCohortObj(program, term, cohort, size):
     return cohort
 
 
-'''def main():
+def main():
     for term in range (len(data)):
         for program in data[term]:
             cohorts = numCohorts(data[term][program])
@@ -100,4 +106,4 @@ def createCohortObj(program, term, cohort, size):
                 cohort = createCohortObj(program, term, c+1, listCohorts[c])
                 print(cohort)
 
-main()'''
+main()
