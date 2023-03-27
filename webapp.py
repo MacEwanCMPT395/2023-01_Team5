@@ -14,6 +14,7 @@ from algorithm import *
 from cohorts import *
 from request_rooms import *
 import settingText as setText
+from courses import *
 
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
@@ -687,7 +688,8 @@ class MyTableWidget(QWidget):
         #submit button
         self.Submit2 = QPushButton("Add Course")
         self.Submit2.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
-
+        self.Submit2.clicked.connect(self.addCourse)
+        
         self.Label = QLabel("ADD COURSES")
         self.Label.setFont(QFont('Arial',12))
         self.Label.setStyleSheet("color: #902a39; font-weight: bold")
@@ -966,6 +968,8 @@ class MyTableWidget(QWidget):
 
         #self.show()
 
+    #def addCourse(self):
+        #addCourse(self.programListValue, self.courseNameValue, self.hoursValue, self.labValue)
 
 
 if __name__ == "__main__":

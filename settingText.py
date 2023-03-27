@@ -68,7 +68,7 @@ def main():
     for cohort in cohorts.values():
         cohort_list.append(cohort)
 
-    listOfRooms = algorithm(cohort_list, [Computer_Lab, Room_8])
+    listOfRooms = algorithm(cohort_list, globalRoomList)
 
     #second schedule builder window
     App2 = QApplication(sys.argv)
