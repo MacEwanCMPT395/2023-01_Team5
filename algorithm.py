@@ -8,6 +8,12 @@ def find_room(all_rooms):
         else:
             continue
 
+def adjust_slot(slot, course):
+    if course.slot_type == 1:
+        slot += 3
+    else:
+        slot += course.slot_type * 2
+    return slot 
 
 def split_rooms(all_rooms):
     lab_rooms = []
@@ -27,14 +33,14 @@ def algorithm(cohorts, rooms):
     # Get our lecture rooms and lab rooms in separate lists.
     lectures, labs = split_rooms(rooms)
 
-    ### Queuing Courses
-    ## Finding Rooms for Courses
-    # Goes through each cohort
+    extra_lab_num = 1
+    extra_lec_num = 1
+    
     for cohort in cohorts:
         slot = 0
         # Goes through each course in each cohort.
         for course in cohort.courses:  # Each course needs to be placed correctly.
-            week = 0
+            
             # Find correct room type
             available_rooms = lectures
             if course.requires_lab:
@@ -44,100 +50,127 @@ def algorithm(cohorts, rooms):
             found = False
             # Find correct room size
             for room in available_rooms:
-                if cohort.room_size == room.capacity:
-                    # Insert into correct Weekday.
-                    if course in GENERAL:
+                week = 0
+                # Prevents Course from being schduled multiple times
+                if found:
+                    break
+                
+                # Correct Room size found.
+                if cohort.room_size <= room.capacity:
+                    
 
-                        # Monday/Wednesday Scanning and Placement
-                        while week < WEEKS:
-
-                            if room.scan(course, week, 0, slot):
-                                if cohort.scan(course, week, 0, slot):
-                                    room.update_schedule(course, cohort, week, 0, slot)
-                                    cohort.update_schedule(course, room, week, 0, slot)
-                                    found = True
-                                    # Adjusting slot placement
-                                    if course.slot_type == 1:
-                                        slot += 3
-                                    else:
-                                        slot += course.slot_type * 2
-                                    break
-
-                            if room.scan(course, week, 2, slot):
-                                if cohort.scan(course, week, 2, slot):
-                                    room.update_schedule(course, cohort, week, 2, slot)
-                                    cohort.update_schedule(course, room, week, 2, slot)
-                                    found = True
-                                    # Adjusting slot placement
-                                    if course.slot_type == 1:
-                                        slot += 3
-                                    else:
-                                        slot += course.slot_type * 2
-                                    break
-                            week += 1
-
+                    # Slot reset Condition
+                    if room.is_lab and slot > 21:
+                        slot = 0
                     else:
-                        # Tuesday/Thursday Placement
-                        while week < WEEKS:
+                        if slot > 14:
+                            slot = 0
 
-                            if room.scan(course, week, 1, slot):
-                                if cohort.scan(course, week, 1, slot):
-                                    room.update_schedule(course, cohort, week, 1, slot)
-                                    cohort.update_schedule(course, room, week, 1, slot)
-                                    found = True
-                                    # Adjusting slot placement
-                                    if course.slot_type == 1:
-                                        slot += 3
-                                    else:
-                                        slot += course.slot_type * 2
-                                    break
-                                week += 1
+                    # Ensuring Correct Weekday.
+                    if course in GENERAL:
+                        weekday = 0
+                    
+                    else:
+                        weekday = 1
+                        
+                    # Monday/Wednesday Scanning and Placement
+                    while week < WEEKS:
+                            
+                        # First day scan (Monday/Tuesday)
+                        if room.scan(course, week, weekday, slot) and cohort.scan(course, week, weekday, slot):
+                                room.update_schedule(course, cohort, week, weekday, slot)
+                                cohort.update_schedule(course, room, week, weekday, slot)
+                                found = True
+                                slot = adjust_slot(slot, course)
+                                break
+                            
+                        # Second day scan (Wedensday/Thursday)
+                        if room.scan(course, week, weekday + 2, slot) and cohort.scan(course, week, weekday + 2, slot):
+                                room.update_schedule(course, cohort, week, weekday + 2, slot)
+                                cohort.update_schedule(course, room, week, weekday + 2, slot)
+                                found = True
+                                slot = adjust_slot(slot, course)
+                                break
+                            
+                        # Increment week
+                        week += 1
 
-                            if room.scan(course, week, 3, slot):
-                                if cohort.scan(course, week, 3, slot):
-                                    room.update_schedule(course, cohort, week, 3, slot)
-                                    cohort.update_schedule(course, room, week, 3, slot)
-
-                                    # Adjusting slot placement
-                                    if course.slot_type == 1:
-                                        slot += 3
-                                    else:
-                                        slot += course.slot_type * 2
-                                    break
-                            week += 1
-
+            # When a Course has not been scheduled, it cannot be put anywhere in any of the currently available rooms.
+            # Therefore, a new room must be created. 
             if not found:
-                if course.requires_lab:
-                    new_room = Room("Extra lab", cohort.room_size, True)
-                else:
-                    new_room = Room("Extra lecture", cohort.room_size, False)
 
-                if course in GENERAL:
-                    new_room.update_schedule(course, cohort, 0, 0, slot)
-                    cohort.update_schedule(course, new_room, 0, 0, slot)
+                # Creating Lecture or Lab, depending on the Course.
+                if course.requires_lab:
+                    new_room = Room("Extra Lab Room " + str(extra_lab_num) , cohort.room_size, True)
+                    extra_lab_num += 1
                     labs.append(new_room)
                 else:
-                    new_room.update_schedule(course, cohort, 0, 1, slot)
-                    cohort.update_schedule(course, new_room, 0, 1, slot)
+                    new_room = Room("Extra Lecture Room " + str(extra_lec_num), cohort.room_size, False)
+                    extra_lec_num += 1
                     lectures.append(new_room)
-                if course.slot_type == 1:
-                    slot += 3
+                
+                # Ensuring Correct Weekday.
+                if course in GENERAL:
+                    weekday = 0
+                    
                 else:
-                    slot += course.slot_type * 2
+                    weekday = 1
+                
+                week = 0
+                # Monday/Wednesday Scanning and Placement
+                while week < WEEKS:
+                        
+                    # First day scan (Monday/Tuesday)
+                    if room.scan(course, week, weekday, slot) and cohort.scan(course, week, weekday, slot):
+                            room.update_schedule(course, cohort, week, weekday, slot)
+                            cohort.update_schedule(course, room, week, weekday, slot)
+                            found = True
+                            slot = adjust_slot(slot, course)
+                            break
+                        
+                    # Second day scan (Wedensday/Thursday)
+                    if room.scan(course, week, weekday + 2, slot) and cohort.scan(course, week, weekday + 2, slot):
+                            room.update_schedule(course, cohort, week, weekday + 2, slot)
+                            cohort.update_schedule(course, room, week, weekday + 2, slot)
+                            found = True
+                            slot = adjust_slot(slot, course)
+                            break
+                        
+                    # Increment week
+                    week += 1
+
+                # Slot adjustment
+                slot = adjust_slot(slot, course)
 
                 
     all_rooms = lectures + labs
-    return all_rooms
+
+    for i in all_rooms:
+        if i.is_empty == False:
+            all_rooms.remove(i)
+
+    return all_rooms  #, cohorts
 
 
 # Testing code.
+"""
 if __name__ == "__main__":
 
-    rooms_ = [Computer_Lab, Room_8]
+    Lecture_1 = Room("Lecture", 30, False)
+    Lab_1 = Room("Lab", 30, True)
+    
+    rooms_ = [Lab_1, Lecture_1]
+
+    print(rooms_)
+
     all_cohorts = [Cohort("FS_1", 28, 1), Cohort("PCOM_1", 27, 1), Cohort("BA_1", 29, 1), Cohort("DXD_1", 40, 1)]
 
-    algorithm(all_cohorts, rooms_)
+    final_rooms, final_cohorts = algorithm(all_cohorts, rooms_)
 
-    all_cohorts[3].print_schedule()
+    final_rooms[0].print_schedule()
+
+    final_cohorts[0].print_schedule()
+"""
+
 
 

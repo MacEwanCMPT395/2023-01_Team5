@@ -59,14 +59,14 @@ class Cohort:
 
         # Placement of Course within Room schedule.
         for w in range(0, sessions):
-            for t in range(slot, course_duration):
+            for t in range(0, course_duration):
                 if self.schedule[week + w][day][slot + t] is None:
                     self.schedule[week + w][day][slot + t] = f"{course.name} / {room.room_number}"
                 else:
                     raise Exception("Schedule Conflict.")
         # If the course runs twice a week, which only occurs with slot_type 1, update the schedule.
         for w in range(0, sessions):
-            for t in range(slot, course_duration):
+            for t in range(0, course_duration):
                 if self.schedule[week + w][day + 2][slot + t] is None:
                     self.schedule[week + w][day + 2][slot + t] = f"{course.name} / {room.room_number}"
                 else:
@@ -115,7 +115,7 @@ class Cohort:
         # If the course runs twice a week update the schedule.
         if course.slot_type == 1 or course.slot_type == 2:
             for w in range(0, sessions):
-                for t in range(slot, course_duration):
+                for t in range(0, course_duration):
                     if self.schedule[week + w][day + 2][slot + t] is None:
                         continue
                     else:
@@ -130,11 +130,6 @@ class Room:
         self.capacity = capacity
         # Lab Status (boolean).
         self.is_lab = is_lab
-
-        # Separate class queues for Mon/Wed and Tue/Thu.
-
-        self.general_queue = []
-        self.special_queue = []
 
         # Labs and Lecture Rooms have different times they are open. Reflect this with the amount of timeslots.
         if is_lab:
@@ -167,6 +162,9 @@ class Room:
     def __str__(self):
         return self.room_number
 
+    def get_capacity(self):
+        return self.capacity
+
     def print_schedule(self):
         # Displays Room Schedule, in an ideal format.
         w = 0
@@ -179,6 +177,17 @@ class Room:
                 print(f"\t{WEEKDAY_NAMES[d]}: ", end='')
                 print(weekday)
                 d += 1
+
+    def is_empty(self):
+        w = 0
+        for week in self.schedule:
+            w += 1
+            d = 0
+            for weekday in week:
+                if weekday is not None:
+                    return True
+                d += 1
+        return False
 
     def update_schedule(self, course, cohort, week, day, slot):
         # Conversions for certain cases.
@@ -201,7 +210,9 @@ class Room:
 
         # Placement of Course within Room schedule.
         for w in range(0, sessions):
-            for t in range(slot, course_duration):
+            for t in range(0, course_duration):
+
+
                 if self.schedule[week + w][day][slot + t] is None:
                     self.schedule[week + w][day][slot + t] = f"{course.name} / {cohort.name}"
                 else:
@@ -209,7 +220,7 @@ class Room:
 
         # If the course runs twice a week, which only occurs with slot_type 1, update the schedule.
         for w in range(0, sessions):
-            for t in range(slot, course_duration):
+            for t in range(0, course_duration):
                 if self.schedule[week + w][day + 2][slot + t] is None:
                     self.schedule[week + w][day + 2][slot + t] = f"{course.name} / {cohort.name}"
                 else:
@@ -236,20 +247,11 @@ class Room:
 
         # Placement of Course within Room schedule.
         for w in range(0, sessions):
-            for t in range(slot, course_duration):
+            for t in range(0, course_duration):
                 if w + week < WEEKS and self.schedule[week + w][day][slot + t] is None:
                     continue
                 else:
                     return False
-
-        # If the course runs twice a week update the schedule.
-        if course.slot_type == 1 or course.slot_type == 2:
-            for w in range(0, sessions):
-                for t in range(slot, course_duration):
-                    if self.schedule[week + w][day + 2][slot + t] is None:
-                        continue
-                    else:
-                        return False
         return True
 
 class Course:
@@ -483,15 +485,15 @@ PCOM_0131 = Course("PCOM_0131", 39, False, 3)
 PM_TERM_3 = [PRDV_0207, PCOM_0131]
 
 # Creation of Default Available Rooms.
-Room_1 = Room("11-533", 36, False)
-Room_2 = Room("11-534", 36, False)
-Room_3 = Room("11-560", 24, False)
-Room_4 = Room("11-562", 24, False)
-Room_5 = Room("11-564", 24, False)
-Room_6 = Room("11-458", 40, False)
-Room_7 = Room("11-430", 30, False)
-Room_8 = Room("11-320", 30, False)
-Computer_Lab = Room("11-532", 30, True)
+Room_1 = Room("Lec 11-533, 36, ", 36, False)
+Room_2 = Room("Lec 11-534, 36", 36, False)
+Room_3 = Room("Lec 11-560, 24", 24, False)
+Room_4 = Room("Lec 11-562, 24", 24, False)
+Room_5 = Room("Lec 11-564, 24", 24, False)
+Room_6 = Room("Lec 11-458, 40", 40, False)
+Room_7 = Room("Lec 11-430, 30", 30, False)
+Room_8 = Room("Lec 11-320, 30", 30, False)
+Computer_Lab = Room("Lab 11-532, 30", 30, True)
 ROOMS = [Room_1, Room_2, Room_3, Room_4, Room_5, Room_6, Room_7, Room_8, Computer_Lab]
 """
 if __name__ == "__main__":

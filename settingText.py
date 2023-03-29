@@ -20,6 +20,7 @@ def make_cohort(list12):
     program_size = list12
     program_num = 0 # used to index program_size array
     for num_registrants in program_size:
+        term = 1
         num_cohorts = numCohorts(num_registrants)
         listCohorts = studentsPerCohort(num_registrants, num_cohorts)
         cohort_num = 1 # used to name cohort and input cohort number in cohort object
@@ -27,9 +28,13 @@ def make_cohort(list12):
             if num == 0:
                 continue
             name = f'{program_names[program_num]}{cohort_num}'
-            cohorts[name] = Cohort(name, num, cohort_num)
+            cohorts[name] = Cohort(name, num, term)
             cohort_num += 1
         program_num += 1
+        if term == 3:
+            term = 1
+        else:
+            term += 1
 
 
 def make_room_object(room_list_raw, room_list):
@@ -38,7 +43,6 @@ def make_room_object(room_list_raw, room_list):
             room_list.append(Room(room[0], room[2], True))
         else:
             room_list.append(Room(room[0], room[2], False))
-
 
 def restart():
     QtCore.QCoreApplication.quit()
@@ -55,9 +59,8 @@ def main():
     App.exec()
     
     #making room list
-    #globalRoomList = []
+    globalRoomList = []
     #print(globalRoomList)
-
 
     #making cohorts
     make_cohort(window.listText)
@@ -70,8 +73,7 @@ def main():
     for cohort in cohorts.values():
         cohort_list.append(cohort)
 
-    print(cohort_list)
-
+    #print(cohort_list)
 
     #starts semester starting date window
     app = QtWidgets.QApplication(sys.argv)
@@ -85,13 +87,15 @@ def main():
 
     listOfRooms = algorithm(cohort_list, window.globalRoomList)
 
+    print(listOfRooms)
+
     #second schedule builder window
     App2 = QApplication(sys.argv)
-    window2 = scheduleGUI.MainWindow2(listOfRooms, w.week_number)
+    window2 = scheduleGUI.MainWindow2(listOfRooms, w.week_number, cohort_list)
     #start the event loop
     App2.exec()
 
-    #window2.redo.clicked.connect(restart())
+    window2.redo.clicked.connect(restart())
 
     print("hello")
     sys.exit(App2.exec_())

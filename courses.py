@@ -352,7 +352,7 @@ def editCourse(list, oldCourse, newCourse, hours, lab, hoursPerDay):
 
     
 #Test functions
-
+'''
 def main():
     addCourse("PCOM_TERM_3","pcom_0131", 18, "no" , "120 minutes")
     print(PCOM_TERM_3)
@@ -376,4 +376,4 @@ def main():
 
 
 
-main()
+main()'''
