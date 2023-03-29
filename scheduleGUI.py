@@ -480,7 +480,7 @@ class MainWindow2(QMainWindow):
                 #print(roomLists)
 
                 listToUse = []
-                print()
+                #print()
 
                 for room in roomLists: 
                        if type(room) == str:
@@ -524,7 +524,7 @@ class MainWindow2(QMainWindow):
                                                        #print("it is none type or int")
                                 listActual.append(listed)
                 #we now have a list of lists of the speicific week in each room for the cohort
-                print(listActual)
+                #print(listActual)
                 #print()
 
                 listToUse2 = [[1, None, None, None, None, None,None,None, None,None,None, None,None,None, None,None,None, None,None, None, None, None, None, None,None,None, None]
@@ -643,7 +643,7 @@ class MainWindow2(QMainWindow):
                                                         #print(course2)  
 
         elif self.ctext != "":
-                print("week index: ", self.weekIndex)
+                #print("week index: ", self.weekIndex)
                 self.roomSchedule.clearContents()
                 self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))
                 self.roomSchedule.setItem(1, 0, QTableWidgetItem("8:00 AM"))
@@ -792,7 +792,7 @@ class MainWindow2(QMainWindow):
                                 if j.room_number == self.ctext:
                                         weeklist = []
                                         w = 0
-                                        print(j.schedule)
+                                        #print(j.schedule)
                                         for week in j.schedule:
                                                 w += 1
                                                 d = 0

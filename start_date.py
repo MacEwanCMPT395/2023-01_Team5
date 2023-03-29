@@ -41,8 +41,8 @@ class Start_Date(QtWidgets.QMainWindow):
         self.start_date = date.dayOfWeek() - 1
         self.week_number.append(" ")
         self.calculate_week_number()
-        print(self.start_date)
-        print(self.week_number)
+        #print(self.start_date)
+        #print(self.week_number)
         self.close()
 
     def calculate_week_number(self):
@@ -59,12 +59,12 @@ class Start_Date(QtWidgets.QMainWindow):
             self.week_number.append(string)
             date = date.addDays(7)
 
-def block_days(room_list, start_day):
+'''def block_days(room_list, start_day):
     print(start_day)
     for day in range(start_day):
         for room in room_list:
             for hour in range(len(room.schedule[0][day])):
-                room.schedule[0][day][hour] = "No Classes"
+                room.schedule[0][day][hour] = "No Classes"'''
 
 
 if __name__ == "__main__":
