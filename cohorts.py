@@ -28,17 +28,22 @@ classroom = {"11-533": {'capacity': 36, 'occupied': 'N'}, "11-534": {'capacity':
         "11-430": {'capacity': 30, 'occupied': 'N'}, "11-320": {'capacity': 30, 'occupied': 'N'},\
         "11-532": {'capacity': 30, 'occupied': 'N'}}
 
-# 3 terms of students
-term1 = {"BA": 31, "PM" : 24, "GL" : 12, "FS" : 8}
-term2 = {"BA": 63, "PM" : 73, "GL" : 18, "FS" : 13}
-term3 = {"BA": 74, "PM" : 102, "GL" : 41, "FS" : 18}
+# 3 terms of students in their Specific program
+term1specific = {"BA": 31, "PM" : 24, "GL" : 12, "FS" : 8}
+term2specific = {"BA": 63, "PM" : 73, "GL" : 18, "FS" : 13}
+term3specific = {"BA": 74, "PM" : 102, "GL" : 41, "FS" : 18}
 
-data = [term1, term2, term3]
+data = [term1specific, term2specific, term3specific]
 
 # Core Course list of BCOM and PCOM 
-PCOMsize = {"term1":  }
+term1core = {"PCOM": 64, "BCOM" : 11}
+term2core = {"PCOM": 150, "BCOM" : 50}
+term3core = {"PCOM": 315, "BCOM" : 35}
+dataPBCOM = [term1core, term2core, term3core]
+
+sizeClassroom = [24, 30, 36, 40]  #size of classrooms we have 
 #mock class for cohort to test
-'''class Cohort:
+class Cohort:
     def __init__(self, program, term, cohort, size):
         self.program = program
         self.term = term
@@ -46,9 +51,30 @@ PCOMsize = {"term1":  }
         self.size = size
     
     def __str__(self):
-        return f'{self.program}0{self.term}0{self.cohort}'''
+        return f'{self.program}0{self.term}0{self.cohort}'
 
-def coreCourseCohorts(size):
+# Divide the Cohort 
+    '''
+    ALgorithm: To populate all of the cohort the size of the room 
+    ex: Given the sizes of available classrooms. 
+    sizes = [24, 30, 36, 40]
+
+    PCOM size of 150 students will consist of 
+            3  * 40-students room with full 40 students = 120
+            1  * 30-students room with full 30 students = 30
+
+    In case of the size is 152 students, to prevent a cohort of size (2), 
+    we will resize the cohort to 
+            3  * 40-students room with full 40 students = 120
+            1  * 30-students room with full 30 students = 30
+    '''
+# def getListOfClassroomSizes(size):
+#     print(set(size))
+#     return set(size)
+
+def coreCourseCohorts(size, dataPBCOM):
+    return 
+
 
     
 def numCohorts(total):
@@ -63,7 +89,7 @@ def numCohorts(total):
 
     '''
     # 1 cohort case 
-    if total <= 30:  
+    if total <= 20:  
         return 1
     
     # start with 2 cohorts
@@ -91,9 +117,9 @@ def studentsPerCohort(total, n):
         listCohort.append(studentsInCohort) 
     return listCohort
 
-'''def createCohortObj(program, term, cohort, size):
+def createCohortObj(program, term, cohort, size):
     cohort = Cohort (program, term, cohort, size)
-    return cohort'''
+    return cohort
 
 
 def main():

@@ -676,17 +676,17 @@ class MainWindow2(QMainWindow):
         Wed: [PCOM_0101, PCOM_0101, PCOM_0101, PCOM_0105, PCOM_0105, PCOM_0105, None, None, None, None, None, None, None, None, None, None, None, None]
         Thu: [PRDV_0640, PRDV_0640, PRDV_0640, PRDV_0652, PRDV_0652, PRDV_0652, PRDV_0653, PRDV_0653, PRDV_0653, PRDV_0642, PRDV_0642, PRDV_0642, None, None, None, None, None, None]'''
 
-'''
-if __name__ == "__main__":
-    #first schedule builder window
-    App = QApplication(sys.argv)
-    window = webapp.MainWindow()
-    #start the event loop
-    App.exec()
 
-    App = QApplication(sys.argv)
-    window = MainWindow2()
-    #start the event loop
-    App.exec()
-    print("hello")
-'''
+# if __name__ == "__main__":
+#     #first schedule builder window
+#     App = QApplication(sys.argv)
+#     window = webapp.MainWindow()
+#     #start the event loop
+#     App.exec()
+
+#     App = QApplication(sys.argv)
+#     window = MainWindow2()
+#     #start the event loop
+#     App.exec()
+#     print("hello")
+
