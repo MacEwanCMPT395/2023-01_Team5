@@ -26,8 +26,7 @@ class Cohort:
         # Finding Courses for Cohort.
         self.courses = set_courses(term, name[0:2])
 
-        # Finding ideal room size for Cohort.
-        sizes = [24, 30, 36, 40]
+        sizes = [24, 30, 36, 40]  #size of classrooms we have 
         self.size = size
         for s in sizes:
             if size > s:
@@ -35,9 +34,6 @@ class Cohort:
             else:
                 self.room_size = s
                 break
-
-    def __repr__(self):
-        return self.name
 
     def __str__(self):
         return self.name

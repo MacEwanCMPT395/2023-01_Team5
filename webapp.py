@@ -165,10 +165,10 @@ class MainWindow(QMainWindow):
         self.aCourse.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.aCourse.clicked.connect(self.editCourse)
 
-        '''making help button'''
-        self.helpButton = QPushButton("?", self)
+        '''making HELP button'''
+        self.helpButton = QPushButton("Help", self)
         self.helpButton.setGeometry(120,700,150,25)
-        self.helpButton.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.helpButton.setStyleSheet("QPushButton {background-color: #1167b1; color: white}")
         self.helpButton.clicked.connect(self.helpButt)
 
         '''showing the initial screen'''
@@ -602,13 +602,6 @@ class MainWindow(QMainWindow):
         msg.setIcon(QMessageBox.Information)
         x = msg.exec_()
 
-    def helpButt(self):
-        dfg = QMessageBox()
-        dfg.setWindowTitle("Help")
-        text = " jgkjjjjjjjjjjjjjjjjjjj"
-        dfg.setText(text)
-        dfg.setIcon(QMessageBox.Information)
-        dfg.exec()
 
     '''add/edit courses'''
     def editCourse(self):
@@ -680,6 +673,30 @@ class MainWindow(QMainWindow):
         #print("clicked")
         self.close()
         #self.openScheduleBuilder()
+
+    '''This function build the Help Box Window'''
+    def helpButt(self):
+        dfg = HelpWindow(self)
+        dfg.exec()
+
+class HelpWindow(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Guideline")
+        QBtn = QDialogButtonBox.Ok
+        
+        self.buttonBox = QDialogButtonBox(QBtn)
+        self.buttonBox.accepted.connect(self.accept) #close the window when hit OK
+
+        self.layout = QVBoxLayout()
+        text = "Welcome to the Guideline! \n" + "There are two ways you can input the data into this application \n\
+                1. Manual input the number of students for each term per program, then hit 'SUBMI' \n\
+                2. Import data from Excel with the button 'Upload Excel File' \n\n\
+        Contact us at _____@gmail for further inquiry."
+        message = QLabel(text)
+        self.layout.addWidget(message)
+        self.layout.addWidget(self.buttonBox)
+        self.setLayout(self.layout)
 
 
 class AnotherWindow(QWidget):
