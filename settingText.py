@@ -59,8 +59,6 @@ def main():
     App.exec()
     
     #making room list
-    globalRoomList = []
-    #print(globalRoomList)
 
     #making cohorts
     make_cohort(window.listText)
@@ -83,11 +81,11 @@ def main():
     if len(w.week_number) == 0:
         return
 
-    block_days(window.globalRoomList, w.start_date)
+    #block_days(window.globalRoomList, w.start_date)
 
     listOfRooms = algorithm(cohort_list, window.globalRoomList)
 
-    print(listOfRooms)
+    #print(listOfRooms)
 
     #second schedule builder window
     App2 = QApplication(sys.argv)

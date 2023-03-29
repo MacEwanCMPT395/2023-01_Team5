@@ -76,7 +76,7 @@ class Cohort:
 
 def coreCourseCohorts(sizeClassroom, dataPBCOM):
     
-    print(sorted(sizeClassroom,reverse = True)) # sort from biggest to smallest 
+    #print(sorted(sizeClassroom,reverse = True)) # sort from biggest to smallest 
     # biggestSize = max(sizeClassroom)
     # smallestSize = min(sizeClassroom)
     # print("Biggest size: " + biggestSize)
@@ -107,7 +107,7 @@ def coreCourseFor2Term(sizeList):
     
     PCOMsum = sizeList[0] + sizeList[1]
     BCOMsum = sizeList[2] + sizeList[3]
-    print("Total PCOM students: ", PCOMsum, "\nTotal BCOM students: ", BCOMsum)
+    #print("Total PCOM students: ", PCOMsum, "\nTotal BCOM students: ", BCOMsum)
 
     sortedClassSize = sorted(sizeClassroom,reverse = True) # [40, 36, 30, 24]
     sortedStudentSize = sorted(sizeList, reverse = True) 
@@ -135,7 +135,7 @@ def coreCourseFor2Term(sizeList):
                 resultList[n] = s
                 break
         
-        print("for", sortedStudentSize[i], ": ", resultList)
+        #print("for", sortedStudentSize[i], ": ", resultList)
 
             
         
