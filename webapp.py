@@ -690,9 +690,18 @@ class HelpWindow(QDialog):
 
         self.layout = QVBoxLayout()
         text = "Welcome to the Guideline! \n" + "There are two ways you can input the data into this application \n\
-                1. Manual input the number of students for each term per program, then hit 'SUBMI' \n\
-                2. Import data from Excel with the button 'Upload Excel File' \n\n\
-        Contact us at _____@gmail for further inquiry."
+                1. Manual input the number of students for each term per program, then hit 'SUBMIT' \n\
+                2. Import data from Excel with the button 'Upload Excel File' \n\
+                3. You can Add/Edit/Remove courses using the 'Edit Courses' button \n\
+                4. After pressing SUBMIT, you will be prompted to pick a semester start date\n\
+                5. After the schedule is made, another window will pop up which will allow you to view weeklys schedules \n\
+                based on room number and week selection or cohort and week selection\n\
+                6. The weekly schedule can be exported to an Excel file by pressing the 'EXPORT' button\n\
+                7. The whole application can be restarted by pressing the 'Start Over' button\n\
+                8. There are two ways to exit the application:\n\
+                    a) By pressing the 'Quit' button\n\
+                    b) By pressing the cross at the top right corner of the application window\n\n\
+        Contact us at khana49@gmail for further inquiry."
         message = QLabel(text)
         self.layout.addWidget(message)
         self.layout.addWidget(self.buttonBox)

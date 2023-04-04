@@ -81,7 +81,7 @@ def main():
     if len(w.week_number) == 0:
         return
 
-    #block_days(window.globalRoomList, w.start_date)
+    #block_days(window.globalRoomList, w.start_date
 
     listOfRooms = algorithm(cohort_list, window.globalRoomList)
 
@@ -92,9 +92,7 @@ def main():
     window2 = scheduleGUI.MainWindow2(listOfRooms, w.week_number, cohort_list)
     #start the event loop
     App2.exec()
-    #window2.redo.clicked.connect(restart())
 
-    #print("hello")
     sys.exit(App2.exec_())
 
 
