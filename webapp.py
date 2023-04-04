@@ -976,10 +976,10 @@ class MyTableWidget(QWidget):
         self.len1 = self.lengthList1.itemText(index)
 
     def addCourse(self):
-        print()
-        print("Before Adding Course")
-        for i in PCOM_TERM_1:
-            print(i)
+        #print()
+        #print("Before Adding Course")
+        #for i in PCOM_TERM_1:
+            #print(i)
         addCourse(self.ptext, self.addCourseName.text(), int(self.addHours.text()), self.addLab.text(),self.len)
         dlg1 = QMessageBox(self)
         dlg1.setWindowTitle("Course Added")
@@ -987,16 +987,16 @@ class MyTableWidget(QWidget):
         dlg1.setText(text)
         dlg1.setIcon(QMessageBox.Information)
         dlg1.exec()
-        print()
-        print("After Adding Course")
-        for i in PCOM_TERM_1:
-            print(i)
+        #print()
+        #print("After Adding Course")
+        #for i in PCOM_TERM_1:
+            #print(i)
 
     def editCourse(self):
-        print()
-        print("Before Editing Course")
-        for i in PCOM_TERM_1:
-            print(i)
+        #print()
+        #print("Before Editing Course")
+        #for i in PCOM_TERM_1:
+            #print(i)
         editCourse(self.ptext1,self.oldCourseName.text(),self.newCourseName.text(), int(self.addHours2.text()), self.addLab2.text(),self.len1)
         dlg = QMessageBox(self)
         dlg.setWindowTitle("Course edited")
@@ -1004,16 +1004,16 @@ class MyTableWidget(QWidget):
         dlg.setText(text)
         dlg.setIcon(QMessageBox.Information)
         dlg.exec()
-        print()
-        print("After Editing Course")
-        for i in PCOM_TERM_1:
-            print(i)
+        #print()
+        #print("After Editing Course")
+        #for i in PCOM_TERM_1:
+            #print(i)
 
     def removeCourse(self):
-        print()
-        print("Before Removing Course")
-        for i in PCOM_TERM_1:
-            print(i)
+        #print()
+        #print("Before Removing Course")
+        #for i in PCOM_TERM_1:
+            #print(i)
         removeCourse(self.ptext2,self.remCourseName.text())
         dlg2 = QMessageBox(self)
         dlg2.setWindowTitle("Course Removed")
@@ -1021,10 +1021,10 @@ class MyTableWidget(QWidget):
         dlg2.setText(text)
         dlg2.setIcon(QMessageBox.Information)
         dlg2.exec()
-        print()
-        print("After Removing Course")
-        for i in PCOM_TERM_1:
-            print(i)
+        #print()
+        #print("After Removing Course")
+        #for i in PCOM_TERM_1:
+            #print(i)
         
 
 '''

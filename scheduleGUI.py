@@ -98,7 +98,7 @@ class MainWindow2(QMainWindow):
 
         '''making the export button'''
         self.export = QPushButton("EXPORT", self)
-        self.export.setGeometry(200,345,175,25)
+        self.export.setGeometry(200,310,175,25)
         self.export.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.export.clicked.connect(self.clickExport)
 
@@ -110,9 +110,15 @@ class MainWindow2(QMainWindow):
 
         '''making the submit button'''
         self.submit = QPushButton("SUBMIT", self)
-        self.submit.setGeometry(20,310,355,25)
+        self.submit.setGeometry(20,310,175,25)
         self.submit.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
         self.submit.clicked.connect(self.clickSubmit)
+
+        '''making quit button'''
+        self.quit = QPushButton("Quit", self)
+        self.quit.setGeometry(200,345,175,25)
+        self.quit.setStyleSheet("QPushButton {background-color: #902a39; color: white}")
+        self.quit.clicked.connect(self.clickQuit)
 
         '''table stuff'''
         self.roomSchedule = QTableWidget(self)
@@ -277,6 +283,10 @@ class MainWindow2(QMainWindow):
         #print(listofRooms)
         self.show()
 
+    def clickQuit(self):
+            self.close()
+            #QtCore.QCoreApplication.quit()
+
     def clickExport(self):
                 filename = QFileDialog.getSaveFileName(self, 'Save File', '', ".xls(*.xls)")
                 wbk = xlwt.Workbook()
@@ -304,6 +314,7 @@ class MainWindow2(QMainWindow):
 
     def clickRedo(self):
         self.close()
+        setText.restart()
 
     def clickSubmit(self):
         #ctext = self.roomNumber.itemText(index)  # Get the text at index.
@@ -314,7 +325,7 @@ class MainWindow2(QMainWindow):
 
         #print("room list", ROOMS)
         if self.cohortText != "":
-                print("week index: ", self.weekIndex)
+                #print("week index: ", self.weekIndex)
                 self.roomSchedule.clearContents()
                 self.roomSchedule.setItem(0, 0, QTableWidgetItem("Time"))
                 self.roomSchedule.setItem(1, 0, QTableWidgetItem("8:00 AM"))
@@ -781,7 +792,7 @@ class MainWindow2(QMainWindow):
                 self.roomSchedule.setItem(25, 4, QTableWidgetItem())
 
 
-                print("list of rooms", self.listofRooms)
+                #print("list of rooms", self.listofRooms)
                 #for i in self.listofRooms:
                 #print(type(i))
 

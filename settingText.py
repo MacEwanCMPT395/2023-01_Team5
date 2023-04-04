@@ -48,7 +48,7 @@ def restart():
     QtCore.QCoreApplication.quit()
 
     status = QtCore.QProcess.startDetached(sys.executable, sys.argv)
-    print (status)
+    #print (status)
 
 
 def main():
@@ -92,10 +92,9 @@ def main():
     window2 = scheduleGUI.MainWindow2(listOfRooms, w.week_number, cohort_list)
     #start the event loop
     App2.exec()
+    #window2.redo.clicked.connect(restart())
 
-    window2.redo.clicked.connect(restart())
-
-    print("hello")
+    #print("hello")
     sys.exit(App2.exec_())
 
 
